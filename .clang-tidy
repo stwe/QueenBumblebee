@@ -16,10 +16,6 @@ CheckOptions:
   - { key: readability-identifier-naming.ProtectedMemberPrefix, value: 'm_' }
   - { key: readability-identifier-naming.PublicMemberPrefix, value: '' }
 
-  # Static Member
-  - { key: readability-identifier-naming.StaticMemberCase, value: camelBack }
-  - { key: readability-identifier-naming.StaticMemberPrefix, value: 's_' }
-
   # Parameter
   - { key: readability-identifier-naming.ParameterCase, value: camelBack }
   - { key: readability-identifier-naming.ParameterPrefix, value: 't_' }
@@ -30,8 +26,9 @@ CheckOptions:
 
   # Globale Variablen und Funktionen
   - { key: readability-identifier-naming.GlobalVariableCase, value: lower_case }
+  - { key: readability-identifier-naming.GlobalVariablePrefix, value: 'g_' }
   - { key: readability-identifier-naming.GlobalFunctionCase, value: lower_case }
-  - { key: readability-identifier-naming.GlobalConstantCase, value: lower_case }
+  - { key: readability-identifier-naming.GlobalConstantCase, value: UPPER_CASE }
 
   # Konstanten (static, constexpr, const)
   - { key: readability-identifier-naming.ConstexprVariableCase, value: UPPER_CASE }

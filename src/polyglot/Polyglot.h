@@ -123,7 +123,7 @@ namespace qb::polyglot
         /**
          * @brief Unconventially Polyglot Castling moves.
          */
-        inline static const std::unordered_map<std::string, std::string> castling_map
+        inline static const std::unordered_map<std::string, std::string> CASTLING_MAP
         {
             { "e1h1", "g1" },
             { "e1a1", "c1" },

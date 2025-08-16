@@ -42,12 +42,12 @@ namespace qb
 
         static std::shared_ptr<spdlog::logger>& GetLogger()
         {
-            if (!m_logger)
+            if (!s_logger)
             {
                 Init();
             }
 
-            return m_logger;
+            return s_logger;
         }
 
     protected:
@@ -57,7 +57,7 @@ namespace qb
         // Member
         //-------------------------------------------------
 
-        inline static std::shared_ptr<spdlog::logger> m_logger;
+        inline static std::shared_ptr<spdlog::logger> s_logger; // NOLINT(*-identifier-naming)
 
         //-------------------------------------------------
         // Init
@@ -65,38 +65,38 @@ namespace qb
 
         static void Init()
         {
-            if (m_logger)
+            if (s_logger)
             {
                 return;
             }
 
 #ifdef LOG_TO_TERMINAL
             spdlog::set_pattern("%^[%T] %n: %v%$");
-            m_logger = spdlog::stdout_color_mt("QB");
+            s_logger = spdlog::stdout_color_mt("QB");
 #else
             auto fileSink{ std::make_shared<spdlog::sinks::basic_file_sink_mt>(
                 "/home/steffen/DevProjects/QueenBumblebee/qb-debug.log",
                 true)
             };
 
-            m_logger = std::make_shared<spdlog::logger>("QB", fileSink);
-            spdlog::set_default_logger(m_logger);
+            s_logger = std::make_shared<spdlog::logger>("QB", fileSink);
+            spdlog::set_default_logger(s_logger);
             spdlog::set_pattern("[%Y-%m-%d %H:%M:%S] [%l] %v");
 
             #ifdef QB_DEBUG_BUILD
-                m_logger->flush_on(spdlog::level::trace);
+                s_logger->flush_on(spdlog::level::trace);
             #else
-                m_logger->flush_on(spdlog::level::info);
+                s_logger->flush_on(spdlog::level::info);
             #endif
 #endif
 
 #ifdef QB_DEBUG_BUILD
-            m_logger->set_level(spdlog::level::trace);
+            s_logger->set_level(spdlog::level::trace);
 #else
-            m_logger->set_level(spdlog::level::info);
+            s_logger->set_level(spdlog::level::info);
 #endif
 
-            m_logger->info("[Logger::Init()] Logger initialized.");
+            s_logger->info("[Logger::Init()] Logger initialized.");
         }
     };
 }

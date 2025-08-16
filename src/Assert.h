@@ -20,7 +20,7 @@
 
 #include "Logger.h"
 
-#if defined(__linux__) && defined(__GNUC__) && (__GNUC__ >= 11) && !defined(QB_ASSERT_TEST_MODE)
+#if defined(__linux__) && defined(__GNUC__) && !defined(QB_ASSERT_TEST_MODE)
     #include <csignal>
 
     #define QB_DEBUG_BREAK raise(SIGTRAP)
@@ -42,7 +42,7 @@
     #else
         #define QB_ASSERT(x, ...)
     #endif
-#elif defined(__linux__) && defined(__GNUC__) && (__GNUC__ >= 11) && defined(QB_ASSERT_TEST_MODE)
+#elif defined(__linux__) && defined(__GNUC__) && defined(QB_ASSERT_TEST_MODE)
     #include <stdexcept>
 
     #define QB_ASSERT(x, ...) \

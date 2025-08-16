@@ -194,15 +194,14 @@ namespace qb
 
     constexpr auto MAX_PHASE_WEIGHT{ 24 };
 
-    inline PieceSquareTables mg_table{};
-    inline PieceSquareTables eg_table{};
+    inline PieceSquareTables g_mg_table{};
+    inline PieceSquareTables g_eg_table{};
 
     /**
      * @brief Penalty values (in centipawns) for hanging pieces.
      *
      * A piece is considered *hanging* if it is currently attacked by an opponent’s piece
-     * and not defended by any friendly piece. These penalties are applied during evaluation
-     * to discourage positions where own pieces are left en prise.
+     * and not defended by any friendly piece.
      *
      * Indexed by PieceType:
      * - NO_PIECE  → 0
@@ -246,8 +245,8 @@ namespace qb
                 {
                     const auto finalSq{ (color == WHITE) ? square : flip_square(static_cast<Square>(square)) };
 
-                    mg_table[encPiece][square] = MG_PIECE_VALUE[typeIdx] + MG_PST[typeIdx][finalSq];
-                    eg_table[encPiece][square] = EG_PIECE_VALUE[typeIdx] + EG_PST[typeIdx][finalSq];
+                    g_mg_table[encPiece][square] = MG_PIECE_VALUE[typeIdx] + MG_PST[typeIdx][finalSq];
+                    g_eg_table[encPiece][square] = EG_PIECE_VALUE[typeIdx] + EG_PST[typeIdx][finalSq];
                 }
             }
         }
@@ -284,8 +283,8 @@ namespace qb
 
             const auto encPiece{ encode_piece(type, color) };
 
-            mg[color] += mg_table[encPiece][square];
-            eg[color] += eg_table[encPiece][square];
+            mg[color] += g_mg_table[encPiece][square];
+            eg[color] += g_eg_table[encPiece][square];
 
             weights += PIECE_PHASE_WEIGHT[encPiece];
 

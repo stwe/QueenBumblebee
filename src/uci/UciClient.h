@@ -115,7 +115,7 @@ namespace qb::uci
         /**
          * @brief Sends UCI engine identification and available options to the GUI.
          *
-         * This includes engine name, author, and all configurable UCI options.
+         * This includes engine name, author and all configurable UCI options.
          */
         static void SendUciInfo();
 
@@ -128,7 +128,7 @@ namespace qb::uci
         void HandleCommand(const std::string& t_command, std::istringstream& t_stream);
 
         /**
-         * @brief Handles the "ucinewgame" command to reset engine state.
+         * @brief Handles the "ucinewgame" command to reset the engine state.
          */
         void HandleNewGame() const;
 

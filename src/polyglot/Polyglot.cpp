@@ -200,7 +200,7 @@ std::string qb::polyglot::Book::NormalizeCastlingToSquare(const std::string& t_m
     }
 
     const std::string key{ t_moveStr.substr(0, 4) };
-    if (const auto it{ castling_map.find(key) }; it != castling_map.end())
+    if (const auto it{ CASTLING_MAP.find(key) }; it != CASTLING_MAP.end())
     {
         return it->second;
     }

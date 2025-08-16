@@ -34,7 +34,7 @@ struct PerftCase
 /**
  * @brief Perft positions.
  */
-const std::array cases
+const std::array CASES
 {
     PerftCase{
         // Initial Position
@@ -78,7 +78,7 @@ const std::array cases
 
 TEST_CASE("Perft Tests", "[perft]")
 {
-    for (const auto& [fen, depth, expectedNodes] : cases)
+    for (const auto& [fen, depth, expectedNodes] : CASES)
     {
         qb::Board board;
         REQUIRE(board.InitWithFen(fen));

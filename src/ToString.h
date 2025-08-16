@@ -56,7 +56,7 @@ namespace qb
      *
      * @param t_file The file (column) of the square to check.
      * @param t_rank The rank (row) of the square to check.
-     * @param t_bitboards The bitboards structure containing all piece positions.
+     * @param t_bitboards The bitboard structure containing all piece positions.
      *
      * @return A pair consisting of:
      *         - A formatted string representation of the piece (or empty if no piece is present).
