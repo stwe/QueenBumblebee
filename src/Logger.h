@@ -1,6 +1,6 @@
 // This file is part of the QueenBumblebee project.
 //
-// Copyright (c) 2025. stwe <https://github.com/stwe/QueenBumblebee>
+// Copyright (c) 2026. stwe <https://github.com/stwe/QueenBumblebee>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -18,11 +18,8 @@
 
 #pragma once
 
+#include <memory>
 #include <spdlog/spdlog.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-#ifndef LOG_TO_TERMINAL
-#include "spdlog/sinks/basic_file_sink.h"
-#endif
 
 namespace qb
 {
@@ -31,24 +28,27 @@ namespace qb
     //-------------------------------------------------
 
     /**
-     * @brief Provides logging functionality using the spdlog library.
+     * @brief Provides thread-safe logging functionality using the spdlog library.
      */
     class Logger
     {
     public:
         //-------------------------------------------------
+        // Ctors. / Dtor.
+        //-------------------------------------------------
+
+        Logger() = delete;
+
+        //-------------------------------------------------
         // Getter
         //-------------------------------------------------
 
-        static std::shared_ptr<spdlog::logger>& GetLogger()
-        {
-            if (!s_logger)
-            {
-                Init();
-            }
-
-            return s_logger;
-        }
+        /**
+         * @brief Retrieves the global logger instance.
+         *
+         * @return A shared_ptr to the logger instance.
+         */
+        static std::shared_ptr<spdlog::logger> GetLogger();
 
     protected:
 
@@ -63,41 +63,10 @@ namespace qb
         // Init
         //-------------------------------------------------
 
-        static void Init()
-        {
-            if (s_logger)
-            {
-                return;
-            }
-
-#ifdef LOG_TO_TERMINAL
-            spdlog::set_pattern("%^[%T] %n: %v%$");
-            s_logger = spdlog::stdout_color_mt("QB");
-#else
-            auto fileSink{ std::make_shared<spdlog::sinks::basic_file_sink_mt>(
-                "/home/steffen/DevProjects/QueenBumblebee/qb-debug.log",
-                true)
-            };
-
-            s_logger = std::make_shared<spdlog::logger>("QB", fileSink);
-            spdlog::set_default_logger(s_logger);
-            spdlog::set_pattern("[%Y-%m-%d %H:%M:%S] [%l] %v");
-
-            #ifdef QB_DEBUG_BUILD
-                s_logger->flush_on(spdlog::level::trace);
-            #else
-                s_logger->flush_on(spdlog::level::info);
-            #endif
-#endif
-
-#ifdef QB_DEBUG_BUILD
-            s_logger->set_level(spdlog::level::trace);
-#else
-            s_logger->set_level(spdlog::level::info);
-#endif
-
-            s_logger->info("[Logger::Init()] Logger initialized.");
-        }
+        /**
+         * @brief Initializes and configures the logger.
+         */
+        static void Init();
     };
 }
 

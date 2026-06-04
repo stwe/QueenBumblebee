@@ -1,6 +1,6 @@
 // This file is part of the QueenBumblebee project.
 //
-// Copyright (c) 2025. stwe <https://github.com/stwe/QueenBumblebee>
+// Copyright (c) 2026. stwe <https://github.com/stwe/QueenBumblebee>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -72,82 +72,82 @@ namespace qb
     // Square bitboards
     //-------------------------------------------------
 
-    static constexpr U64 A1{ 0x0000000000000001 };
-    static constexpr U64 B1{ 0x0000000000000002 };
-    static constexpr U64 C1{ 0x0000000000000004 };
-    static constexpr U64 D1{ 0x0000000000000008 };
-    static constexpr U64 E1{ 0x0000000000000010 };
-    static constexpr U64 F1{ 0x0000000000000020 };
-    static constexpr U64 G1{ 0x0000000000000040 };
-    static constexpr U64 H1{ 0x0000000000000080 };
+    inline constexpr U64 A1{ 0x0000000000000001 };
+    inline constexpr U64 B1{ 0x0000000000000002 };
+    inline constexpr U64 C1{ 0x0000000000000004 };
+    inline constexpr U64 D1{ 0x0000000000000008 };
+    inline constexpr U64 E1{ 0x0000000000000010 };
+    inline constexpr U64 F1{ 0x0000000000000020 };
+    inline constexpr U64 G1{ 0x0000000000000040 };
+    inline constexpr U64 H1{ 0x0000000000000080 };
 
-    static constexpr U64 A2{ 0x0000000000000100 };
-    static constexpr U64 B2{ 0x0000000000000200 };
-    static constexpr U64 C2{ 0x0000000000000400 };
-    static constexpr U64 D2{ 0x0000000000000800 };
-    static constexpr U64 E2{ 0x0000000000001000 };
-    static constexpr U64 F2{ 0x0000000000002000 };
-    static constexpr U64 G2{ 0x0000000000004000 };
-    static constexpr U64 H2{ 0x0000000000008000 };
+    inline constexpr U64 A2{ 0x0000000000000100 };
+    inline constexpr U64 B2{ 0x0000000000000200 };
+    inline constexpr U64 C2{ 0x0000000000000400 };
+    inline constexpr U64 D2{ 0x0000000000000800 };
+    inline constexpr U64 E2{ 0x0000000000001000 };
+    inline constexpr U64 F2{ 0x0000000000002000 };
+    inline constexpr U64 G2{ 0x0000000000004000 };
+    inline constexpr U64 H2{ 0x0000000000008000 };
 
-    static constexpr U64 A3{ 0x0000000000010000 };
-    static constexpr U64 B3{ 0x0000000000020000 };
-    static constexpr U64 C3{ 0x0000000000040000 };
-    static constexpr U64 D3{ 0x0000000000080000 };
-    static constexpr U64 E3{ 0x0000000000100000 };
-    static constexpr U64 F3{ 0x0000000000200000 };
-    static constexpr U64 G3{ 0x0000000000400000 };
-    static constexpr U64 H3{ 0x0000000000800000 };
+    inline constexpr U64 A3{ 0x0000000000010000 };
+    inline constexpr U64 B3{ 0x0000000000020000 };
+    inline constexpr U64 C3{ 0x0000000000040000 };
+    inline constexpr U64 D3{ 0x0000000000080000 };
+    inline constexpr U64 E3{ 0x0000000000100000 };
+    inline constexpr U64 F3{ 0x0000000000200000 };
+    inline constexpr U64 G3{ 0x0000000000400000 };
+    inline constexpr U64 H3{ 0x0000000000800000 };
 
-    static constexpr U64 A4{ 0x0000000001000000 };
-    static constexpr U64 B4{ 0x0000000002000000 };
-    static constexpr U64 C4{ 0x0000000004000000 };
-    static constexpr U64 D4{ 0x0000000008000000 };
-    static constexpr U64 E4{ 0x0000000010000000 };
-    static constexpr U64 F4{ 0x0000000020000000 };
-    static constexpr U64 G4{ 0x0000000040000000 };
-    static constexpr U64 H4{ 0x0000000080000000 };
+    inline constexpr U64 A4{ 0x0000000001000000 };
+    inline constexpr U64 B4{ 0x0000000002000000 };
+    inline constexpr U64 C4{ 0x0000000004000000 };
+    inline constexpr U64 D4{ 0x0000000008000000 };
+    inline constexpr U64 E4{ 0x0000000010000000 };
+    inline constexpr U64 F4{ 0x0000000020000000 };
+    inline constexpr U64 G4{ 0x0000000040000000 };
+    inline constexpr U64 H4{ 0x0000000080000000 };
 
-    static constexpr U64 A5{ 0x0000000100000000 };
-    static constexpr U64 B5{ 0x0000000200000000 };
-    static constexpr U64 C5{ 0x0000000400000000 };
-    static constexpr U64 D5{ 0x0000000800000000 };
-    static constexpr U64 E5{ 0x0000001000000000 };
-    static constexpr U64 F5{ 0x0000002000000000 };
-    static constexpr U64 G5{ 0x0000004000000000 };
-    static constexpr U64 H5{ 0x0000008000000000 };
+    inline constexpr U64 A5{ 0x0000000100000000 };
+    inline constexpr U64 B5{ 0x0000000200000000 };
+    inline constexpr U64 C5{ 0x0000000400000000 };
+    inline constexpr U64 D5{ 0x0000000800000000 };
+    inline constexpr U64 E5{ 0x0000001000000000 };
+    inline constexpr U64 F5{ 0x0000002000000000 };
+    inline constexpr U64 G5{ 0x0000004000000000 };
+    inline constexpr U64 H5{ 0x0000008000000000 };
 
-    static constexpr U64 A6{ 0x0000010000000000 };
-    static constexpr U64 B6{ 0x0000020000000000 };
-    static constexpr U64 C6{ 0x0000040000000000 };
-    static constexpr U64 D6{ 0x0000080000000000 };
-    static constexpr U64 E6{ 0x0000100000000000 };
-    static constexpr U64 F6{ 0x0000200000000000 };
-    static constexpr U64 G6{ 0x0000400000000000 };
-    static constexpr U64 H6{ 0x0000800000000000 };
+    inline constexpr U64 A6{ 0x0000010000000000 };
+    inline constexpr U64 B6{ 0x0000020000000000 };
+    inline constexpr U64 C6{ 0x0000040000000000 };
+    inline constexpr U64 D6{ 0x0000080000000000 };
+    inline constexpr U64 E6{ 0x0000100000000000 };
+    inline constexpr U64 F6{ 0x0000200000000000 };
+    inline constexpr U64 G6{ 0x0000400000000000 };
+    inline constexpr U64 H6{ 0x0000800000000000 };
 
-    static constexpr U64 A7{ 0x0001000000000000 };
-    static constexpr U64 B7{ 0x0002000000000000 };
-    static constexpr U64 C7{ 0x0004000000000000 };
-    static constexpr U64 D7{ 0x0008000000000000 };
-    static constexpr U64 E7{ 0x0010000000000000 };
-    static constexpr U64 F7{ 0x0020000000000000 };
-    static constexpr U64 G7{ 0x0040000000000000 };
-    static constexpr U64 H7{ 0x0080000000000000 };
+    inline constexpr U64 A7{ 0x0001000000000000 };
+    inline constexpr U64 B7{ 0x0002000000000000 };
+    inline constexpr U64 C7{ 0x0004000000000000 };
+    inline constexpr U64 D7{ 0x0008000000000000 };
+    inline constexpr U64 E7{ 0x0010000000000000 };
+    inline constexpr U64 F7{ 0x0020000000000000 };
+    inline constexpr U64 G7{ 0x0040000000000000 };
+    inline constexpr U64 H7{ 0x0080000000000000 };
 
-    static constexpr U64 A8{ 0x0100000000000000 };
-    static constexpr U64 B8{ 0x0200000000000000 };
-    static constexpr U64 C8{ 0x0400000000000000 };
-    static constexpr U64 D8{ 0x0800000000000000 };
-    static constexpr U64 E8{ 0x1000000000000000 };
-    static constexpr U64 F8{ 0x2000000000000000 };
-    static constexpr U64 G8{ 0x4000000000000000 };
-    static constexpr U64 H8{ 0x8000000000000000 };
+    inline constexpr U64 A8{ 0x0100000000000000 };
+    inline constexpr U64 B8{ 0x0200000000000000 };
+    inline constexpr U64 C8{ 0x0400000000000000 };
+    inline constexpr U64 D8{ 0x0800000000000000 };
+    inline constexpr U64 E8{ 0x1000000000000000 };
+    inline constexpr U64 F8{ 0x2000000000000000 };
+    inline constexpr U64 G8{ 0x4000000000000000 };
+    inline constexpr U64 H8{ 0x8000000000000000 };
 
     /**
      * @brief Precomputed bitboards for each square on a chessboard.
      */
-    static constexpr std::array SQUARE_BITBOARDS
+    inline constexpr std::array SQUARE_BITBOARDS
     {
         A1, B1, C1, D1, E1, F1, G1, H1,
         A2, B2, C2, D2, E2, F2, G2, H2,
@@ -163,16 +163,16 @@ namespace qb
     // File bitboards
     //-------------------------------------------------
 
-    static constexpr U64 MASK_FILE_A{ 0x0101010101010101 };
-    static constexpr U64 MASK_FILE_B{ 0x0202020202020202 };
-    static constexpr U64 MASK_FILE_C{ 0x0404040404040404 };
-    static constexpr U64 MASK_FILE_D{ 0x0808080808080808 };
-    static constexpr U64 MASK_FILE_E{ 0x1010101010101010 };
-    static constexpr U64 MASK_FILE_F{ 0x2020202020202020 };
-    static constexpr U64 MASK_FILE_G{ 0x4040404040404040 };
-    static constexpr U64 MASK_FILE_H{ 0x8080808080808080 };
+    inline constexpr U64 MASK_FILE_A{ 0x0101010101010101 };
+    inline constexpr U64 MASK_FILE_B{ 0x0202020202020202 };
+    inline constexpr U64 MASK_FILE_C{ 0x0404040404040404 };
+    inline constexpr U64 MASK_FILE_D{ 0x0808080808080808 };
+    inline constexpr U64 MASK_FILE_E{ 0x1010101010101010 };
+    inline constexpr U64 MASK_FILE_F{ 0x2020202020202020 };
+    inline constexpr U64 MASK_FILE_G{ 0x4040404040404040 };
+    inline constexpr U64 MASK_FILE_H{ 0x8080808080808080 };
 
-    constexpr std::array FILE_MASKS
+    inline constexpr std::array FILE_MASKS
     {
         MASK_FILE_A, MASK_FILE_B, MASK_FILE_C, MASK_FILE_D,
         MASK_FILE_E, MASK_FILE_F, MASK_FILE_G, MASK_FILE_H
@@ -182,16 +182,16 @@ namespace qb
     // Rank bitboards
     //-------------------------------------------------
 
-    static constexpr U64 MASK_RANK_1{ 0x00000000000000FF };
-    static constexpr U64 MASK_RANK_2{ 0x000000000000FF00 };
-    static constexpr U64 MASK_RANK_3{ 0x0000000000FF0000 };
-    static constexpr U64 MASK_RANK_4{ 0x00000000FF000000 };
-    static constexpr U64 MASK_RANK_5{ 0x000000FF00000000 };
-    static constexpr U64 MASK_RANK_6{ 0x0000FF0000000000 };
-    static constexpr U64 MASK_RANK_7{ 0x00FF000000000000 };
-    static constexpr U64 MASK_RANK_8{ 0xFF00000000000000 };
+    inline constexpr U64 MASK_RANK_1{ 0x00000000000000FF };
+    inline constexpr U64 MASK_RANK_2{ 0x000000000000FF00 };
+    inline constexpr U64 MASK_RANK_3{ 0x0000000000FF0000 };
+    inline constexpr U64 MASK_RANK_4{ 0x00000000FF000000 };
+    inline constexpr U64 MASK_RANK_5{ 0x000000FF00000000 };
+    inline constexpr U64 MASK_RANK_6{ 0x0000FF0000000000 };
+    inline constexpr U64 MASK_RANK_7{ 0x00FF000000000000 };
+    inline constexpr U64 MASK_RANK_8{ 0xFF00000000000000 };
 
-    constexpr std::array RANK_MASKS
+    inline constexpr std::array RANK_MASKS
     {
         MASK_RANK_1, MASK_RANK_2, MASK_RANK_3, MASK_RANK_4,
         MASK_RANK_5, MASK_RANK_6, MASK_RANK_7, MASK_RANK_8
@@ -250,7 +250,7 @@ namespace qb
     /**
      * @brief Precomputed bitmasks for all diagonals on the chessboard.
      */
-    constexpr std::array DIAGONAL_MASKS
+    inline constexpr std::array DIAGONAL_MASKS
     {
         generate_diagonal_mask(0), generate_diagonal_mask(1), generate_diagonal_mask(2), generate_diagonal_mask(3),
         generate_diagonal_mask(4), generate_diagonal_mask(5), generate_diagonal_mask(6), generate_diagonal_mask(7),
@@ -261,7 +261,7 @@ namespace qb
     /**
      * @brief Precomputed bitmasks for all anti-diagonals on the chessboard.
      */
-    constexpr std::array ANTIDIAGONAL_MASKS
+    inline constexpr std::array ANTIDIAGONAL_MASKS
     {
         generate_anti_diagonal_mask(0), generate_anti_diagonal_mask(1), generate_anti_diagonal_mask(2), generate_anti_diagonal_mask(3),
         generate_anti_diagonal_mask(4), generate_anti_diagonal_mask(5), generate_anti_diagonal_mask(6), generate_anti_diagonal_mask(7),
@@ -297,10 +297,10 @@ namespace qb
     // Castling bitboards
     //-------------------------------------------------
 
-    constexpr U64 WHITE_CASTLING_MASK_OO{ F1 | G1 };
-    constexpr U64 WHITE_CASTLING_MASK_OOO{ B1 | C1 | D1 };
-    constexpr U64 BLACK_CASTLING_MASK_OO{ F8 | G8 };
-    constexpr U64 BLACK_CASTLING_MASK_OOO{ B8 | C8 | D8 };
+    inline constexpr U64 WHITE_CASTLING_MASK_OO{ F1 | G1 };
+    inline constexpr U64 WHITE_CASTLING_MASK_OOO{ B1 | C1 | D1 };
+    inline constexpr U64 BLACK_CASTLING_MASK_OO{ F8 | G8 };
+    inline constexpr U64 BLACK_CASTLING_MASK_OOO{ B8 | C8 | D8 };
 
     //-------------------------------------------------
     // Bitboard utils
@@ -334,7 +334,7 @@ namespace qb
      */
     [[nodiscard]] constexpr U64 square_bitboard(const Square t_square)
     {
-        QB_ASSERT(is_valid_square(t_square), "[square_bitboard()] Invalid square.")
+        QB_ASSERT(is_valid_square(t_square), "[square_bitboard()] Invalid square.");
         return SQUARE_BITBOARDS[t_square];
     }
 
@@ -347,8 +347,8 @@ namespace qb
      */
     constexpr void set_bit(U64& t_bitboard, const File t_file, const Rank t_rank)
     {
-        QB_ASSERT(is_valid_file(t_file), "[set_bit()] Invalid file.")
-        QB_ASSERT(is_valid_rank(t_rank), "[set_bit()] Invalid rank.")
+        QB_ASSERT(is_valid_file(t_file), "[set_bit()] Invalid file.");
+        QB_ASSERT(is_valid_rank(t_rank), "[set_bit()] Invalid rank.");
         t_bitboard |= square_bitboard(make_square(t_file, t_rank));
     }
 
@@ -385,8 +385,8 @@ namespace qb
      */
     [[nodiscard]] constexpr bool is_bit_set(const U64 t_bitboard, const File t_file, const Rank t_rank)
     {
-        QB_ASSERT(is_valid_file(t_file), "[is_bit_set()] Invalid file.")
-        QB_ASSERT(is_valid_rank(t_rank), "[is_bit_set()] Invalid rank.")
+        QB_ASSERT(is_valid_file(t_file), "[is_bit_set()] Invalid file.");
+        QB_ASSERT(is_valid_rank(t_rank), "[is_bit_set()] Invalid rank.");
         return (t_bitboard & square_bitboard(make_square(t_file, t_rank))) != 0;
     }
 
@@ -415,7 +415,7 @@ namespace qb
      */
     inline Square get_lsb(const U64 t_bitboard)
     {
-        QB_ASSERT(t_bitboard, "[get_lsb()] Invalid bitboard.")
+        QB_ASSERT(t_bitboard, "[get_lsb()] Invalid bitboard.");
         return static_cast<Square>(__builtin_ctzll(t_bitboard));
     }
 
@@ -428,7 +428,7 @@ namespace qb
      */
     inline Square pop_lsb(U64& t_bitboard)
     {
-        QB_ASSERT(t_bitboard, "[pop_lsb()] Invalid bitboard.")
+        QB_ASSERT(t_bitboard, "[pop_lsb()] Invalid bitboard.");
 
         const Square square{ get_lsb(t_bitboard) };
         t_bitboard &= t_bitboard - 1;

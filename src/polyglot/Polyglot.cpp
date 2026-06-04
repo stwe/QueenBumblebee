@@ -125,7 +125,7 @@ std::string qb::polyglot::Book::PolyMoveToUci(const uint16_t t_move)
 
 uint64_t qb::polyglot::Book::PolyglotHash(const Board* t_board)
 {
-    QB_ASSERT(t_board, "[Book::PolyglotHash()] Null pointer.")
+    QB_ASSERT(t_board, "[Book::PolyglotHash()] Null pointer.");
 
     uint64_t key{ 0 };
 
@@ -171,7 +171,7 @@ uint64_t qb::polyglot::Book::PolyglotHash(const Board* t_board)
 std::pair<std::vector<qb::polyglot::Entry>::const_iterator, std::vector<qb::polyglot::Entry>::const_iterator> qb::
 polyglot::Book::Probe(const uint64_t t_key) const
 {
-    QB_ASSERT(!m_entries.empty(), "[Book::Probe()] Missing book entries.")
+    QB_ASSERT(!m_entries.empty(), "[Book::Probe()] Missing book entries.");
 
     auto lo = std::lower_bound(
         m_entries.begin(), m_entries.end(),
@@ -214,7 +214,7 @@ std::string qb::polyglot::Book::NormalizeCastlingToSquare(const std::string& t_m
 
 bool qb::polyglot::Book::PawnOn(const Board* t_board, const File t_file, const Rank t_rank, const Color t_color) noexcept
 {
-    QB_ASSERT(t_board, "[Book::PawnOn()] Null pointer.")
+    QB_ASSERT(t_board, "[Book::PawnOn()] Null pointer.");
 
     const U64 bb{ (t_color == WHITE) ? t_board->bitboards.whitePawns : t_board->bitboards.blackPawns };
     return is_bit_set(bb, make_square(t_file, t_rank));

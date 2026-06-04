@@ -13,20 +13,33 @@ FILE(GLOB TARGET_CPP
 list(REMOVE_ITEM TARGET_CPP "${CMAKE_CURRENT_SOURCE_DIR}/Main.cpp")
 add_library(queen_bumblebee_lib STATIC ${TARGET_CPP} ${TARGET_H})
 
-target_include_directories(queen_bumblebee_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(queen_bumblebee_lib PUBLIC fmt::fmt-header-only spdlog::spdlog_header_only)
+target_include_directories(queen_bumblebee_lib
+    PUBLIC
+        ${CMAKE_CURRENT_BINARY_DIR}
+        ${PROJECT_SOURCE_DIR}/src
+)
 
-if (CMAKE_BUILD_TYPE MATCHES Debug)
-    target_compile_definitions(queen_bumblebee_lib PRIVATE QB_DEBUG_BUILD SPDLOG_NO_EXCEPTIONS)
-else()
-    target_compile_definitions(queen_bumblebee_lib PRIVATE SPDLOG_NO_EXCEPTIONS)
-endif()
+target_link_libraries(queen_bumblebee_lib
+    PUBLIC
+        spdlog::spdlog_header_only
+)
+
+target_compile_definitions(queen_bumblebee_lib
+    PRIVATE
+        SPDLOG_NO_EXCEPTIONS
+    PUBLIC
+        $<$<CONFIG:Debug>:QB_DEBUG_BUILD>
+)
 
 add_executable(QueenBumblebee Main.cpp)
-target_link_libraries(QueenBumblebee PRIVATE queen_bumblebee_lib)
+target_link_libraries(QueenBumblebee
+    PRIVATE
+        queen_bumblebee_lib
+        spdlog::spdlog
+)
 
 add_custom_command(TARGET QueenBumblebee POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-    "${CMAKE_SOURCE_DIR}/books"
-    "$<TARGET_FILE_DIR:QueenBumblebee>/books"
+    ${CMAKE_SOURCE_DIR}/books
+    $<TARGET_FILE_DIR:${PROJECT_NAME}>/books
 )

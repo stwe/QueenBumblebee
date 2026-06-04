@@ -34,7 +34,7 @@
 qb::uci::UciClient::UciClient(Board* t_board)
     : m_board{ t_board }
 {
-    QB_ASSERT(m_board, "[UciClient::UciClient()] Null pointer.")
+    QB_ASSERT(m_board, "[UciClient::UciClient()] Null pointer.");
 
     QB_LOG_DEBUG("[UciClient::UciClient()] Create UciClient object.");
 }

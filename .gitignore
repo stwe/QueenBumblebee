@@ -2,7 +2,9 @@
 .idea/
 /cmake-build-debug/
 /cmake-build-release/
+/build
 *.log
 *.bin
+*.json
 stockfish
 CuteChess.AppImage

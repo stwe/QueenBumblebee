@@ -1,6 +1,6 @@
 // This file is part of the QueenBumblebee project.
 //
-// Copyright (c) 2025. stwe <https://github.com/stwe/QueenBumblebee>
+// Copyright (c) 2026. stwe <https://github.com/stwe/QueenBumblebee>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -18,40 +18,38 @@
 
 #pragma once
 
+#include <source_location>
+#include <string_view>
+#include <exception>
+#include <csignal>
 #include "Logger.h"
 
-#if defined(__linux__) && defined(__GNUC__) && !defined(QB_ASSERT_TEST_MODE)
-    #include <csignal>
+namespace qb
+{
+    [[noreturn]] inline void assert_fail(
+        std::string_view t_message,
+        const std::source_location& t_loc = std::source_location::current())
+    {
+        QB_LOG_CRITICAL(
+            "Assertion failed: {}\n  at {}:{} in {}",
+            t_message,
+            t_loc.file_name(),
+            t_loc.line(),
+            t_loc.function_name()
+        );
 
-    #define QB_DEBUG_BREAK raise(SIGTRAP)
+        std::raise(SIGTRAP);
 
-    #ifdef QB_DEBUG_BUILD
-        #define QB_ENABLE_ASSERTS
-    #endif
+        std::terminate();
+    }
+}
 
-    #ifdef QB_ENABLE_ASSERTS
-        #define QB_ASSERT(x, ...)                                               \
-            {                                                                   \
-                if (!(x))                                                       \
-                {                                                               \
-                    QB_LOG_ERROR("Assertion Failed: {0}, File: {1}, Line: {2}", \
-                    __VA_ARGS__, __FILE__, __LINE__);                           \
-                    QB_DEBUG_BREAK;                                             \
-                }                                                               \
-            }
-    #else
-        #define QB_ASSERT(x, ...)
-    #endif
-#elif defined(__linux__) && defined(__GNUC__) && defined(QB_ASSERT_TEST_MODE)
-    #include <stdexcept>
-
-    #define QB_ASSERT(x, ...) \
-        { \
-            if (!(x)) \
-            { \
-                throw std::logic_error("QB_ASSERT failed: " #x); \
-            } \
-        }
+#if defined(QB_DEBUG_BUILD)
+    #define QB_ASSERT(cond, msg)          \
+        do {                              \
+            if (!(cond))                  \
+                ::qb::assert_fail((msg)); \
+        } while (false)
 #else
-    #error "Compiler not supported."
+    #define QB_ASSERT(cond, msg) ((void)0)
 #endif

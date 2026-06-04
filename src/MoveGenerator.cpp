@@ -31,7 +31,7 @@
 qb::MoveGenerator::MoveGenerator(Board* t_board)
     : m_board{ t_board }
 {
-    QB_ASSERT(m_board, "[MoveGenerator::MoveGenerator()] Null pointer.")
+    QB_ASSERT(m_board, "[MoveGenerator::MoveGenerator()] Null pointer.");
 
     QB_LOG_DEBUG("[MoveGenerator::MoveGenerator()] Create MoveGenerator object.");
 }

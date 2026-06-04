@@ -107,7 +107,7 @@ namespace qb
                     t_promotionPieceType != PAWN &&
                     t_promotionPieceType != KING),
                 "[Move::Move()] Promotion move must have a valid promotion piece type."
-            )
+            );
 
             QB_ASSERT((move & 0xFC000000) == 0, "[Move::Move()] Move value exceeds 26-bit limit.");
         }

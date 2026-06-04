@@ -68,8 +68,8 @@ namespace qb
         const Bitboards& t_bitboards
     )
     {
-        QB_ASSERT(is_valid_file(t_file), "[get_piece_string()] Invalid file.")
-        QB_ASSERT(is_valid_rank(t_rank), "[get_piece_string()] Invalid rank.")
+        QB_ASSERT(is_valid_file(t_file), "[get_piece_string()] Invalid file.");
+        QB_ASSERT(is_valid_rank(t_rank), "[get_piece_string()] Invalid rank.");
 
         if (is_bit_set(t_bitboards.whitePawns, t_file, t_rank)) return { " " + std::string(create_short_piece_string(PAWN, WHITE)) + " ", WHITE };
         if (is_bit_set(t_bitboards.whiteKnights, t_file, t_rank)) return { " " + std::string(create_short_piece_string(KNIGHT, WHITE)) + " ", WHITE };
