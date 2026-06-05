@@ -4,7 +4,7 @@ file(GLOB TEST_SOURCES
 
 add_executable(qb_tests ${TEST_SOURCES})
 
-target_link_libraries(qb_tests PRIVATE queen_bumblebee_lib Catch2::Catch2WithMain spdlog::spdlog_header_only)
+target_link_libraries(qb_tests PRIVATE queen_bumblebee_lib Catch2::Catch2WithMain spdlog::spdlog)
 target_include_directories(qb_tests PRIVATE ${PROJECT_SOURCE_DIR}/src)
 
 target_compile_definitions(qb_tests

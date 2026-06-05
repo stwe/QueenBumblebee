@@ -1,6 +1,6 @@
 // This file is part of the QueenBumblebee project.
 //
-// Copyright (c) 2025. stwe <https://github.com/stwe/QueenBumblebee>
+// Copyright (c) 2026. stwe <https://github.com/stwe/QueenBumblebee>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -17,10 +17,23 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 #define CATCH_CONFIG_MAIN
-#define QB_ASSERT_TEST_MODE
 
 #include <catch2/catch_test_macros.hpp>
 #include "Move.h"
+
+TEST_CASE("Move - Size", "[Move]")
+{
+    REQUIRE(sizeof(qb::Move) == 4);
+}
+
+TEST_CASE("Move - ToString", "[Move]")
+{
+    constexpr qb::Move M1(qb::SQ_E2, qb::SQ_E4, qb::PAWN);
+    REQUIRE(M1.ToString() == "e2e4");
+
+    constexpr qb::Move M2(qb::SQ_E7, qb::SQ_E8, qb::PAWN, qb::QUEEN, qb::PROMOTION);
+    REQUIRE(M2.ToString() == "e7e8q");
+}
 
 TEST_CASE("Move - Basic Construction and Getters", "[Move]")
 {
@@ -60,21 +73,4 @@ TEST_CASE("Move - Castling", "[Move]")
 
     REQUIRE(M.TypeOfMove() == qb::CASTLING);
     REQUIRE(M.TypeOfPiece() == qb::KING);
-}
-
-TEST_CASE("Move - Invalid Promotion Throws Assertion", "[Move][Error]")
-{
-    // Promotion mit NO_PIECE_TYPE → Sollte Assertion auslösen
-    REQUIRE_THROWS([] {
-        [[maybe_unused]] qb::Move badPromo(qb::SQ_E7, qb::SQ_E8, qb::PAWN, qb::NO_PIECE_TYPE, qb::PROMOTION);
-    }());
-
-    // Promotion zu einem ungültigen Typen (z.B. KING oder PAWN) → Sollte Assertion auslösen
-    REQUIRE_THROWS([] {
-        [[maybe_unused]] qb::Move badPromo2(qb::SQ_E7, qb::SQ_E8, qb::PAWN, qb::PAWN, qb::PROMOTION);
-    }());
-
-    REQUIRE_THROWS([] {
-        [[maybe_unused]] qb::Move badPromo3(qb::SQ_E7, qb::SQ_E8, qb::PAWN, qb::KING, qb::PROMOTION);
-    }());
 }

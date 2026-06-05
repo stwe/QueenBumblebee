@@ -1,6 +1,6 @@
 // This file is part of the QueenBumblebee project.
 //
-// Copyright (c) 2025. stwe <https://github.com/stwe/QueenBumblebee>
+// Copyright (c) 2026. stwe <https://github.com/stwe/QueenBumblebee>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -21,7 +21,7 @@
 #include "Utils.h"
 
 // --------------------------------------------------------------------------------
-// Move-Record: 26 Bit
+// Move-Record: 23 Bit
 // --------------------------------------------------------------------------------
 // bit 00-05: from square (0 to 63)                                          6 Bits
 // bit 06-11: to square (0 to 63)                                            6 Bits
@@ -38,7 +38,7 @@ namespace qb
     //-------------------------------------------------
 
     /**
-     * @brief Represents a chess move encoded as a 26-bit value.
+     * @brief Represents a chess move encoded as a 23-bit value.
      *
      * This struct compactly stores all information about a move, including the
      * origin and destination squares, the moving piece type, optional promotion,
@@ -61,7 +61,7 @@ namespace qb
         //-------------------------------------------------
 
         /**
-         * @brief Encoded move as a 32-bit unsigned integer (only lower 26 bits used).
+         * @brief Encoded move as a 32-bit unsigned integer (only lower 23 bits used).
          */
         uint32_t move{ 0 };
 
@@ -89,12 +89,13 @@ namespace qb
             const MoveType t_moveType = NORMAL,
             const PieceType t_capturedPieceType = NO_PIECE_TYPE
         )
-            : move(t_from +
-                (t_to << TO_SQUARE_OFFSET) +
-                (t_pieceType << PIECE_TYPE_OFFSET) +
-                (t_promotionPieceType << PROMOTION_PIECE_TYPE_OFFSET) +
-                (t_moveType << MOVE_TYPE_OFFSET) +
-                (t_capturedPieceType << CAPTURED_PIECE_TYPE_OFFSET)
+        : move(
+            static_cast<uint32_t>(t_from) |
+            (static_cast<uint32_t>(t_to) << TO_SQUARE_OFFSET) |
+            (static_cast<uint32_t>(t_pieceType) << PIECE_TYPE_OFFSET) |
+            (static_cast<uint32_t>(t_promotionPieceType) << PROMOTION_PIECE_TYPE_OFFSET) |
+            (static_cast<uint32_t>(t_moveType) << MOVE_TYPE_OFFSET) |
+            (static_cast<uint32_t>(t_capturedPieceType) << CAPTURED_PIECE_TYPE_OFFSET)
             )
         {
             QB_ASSERT(is_valid_square(t_from), "[Move::Move()] From square out of bounds.");
@@ -109,7 +110,7 @@ namespace qb
                 "[Move::Move()] Promotion move must have a valid promotion piece type."
             );
 
-            QB_ASSERT((move & 0xFC000000) == 0, "[Move::Move()] Move value exceeds 26-bit limit.");
+            QB_ASSERT((move & 0xFF800000) == 0, "[Move::Move()] Move value exceeds 23-bit limit.");
         }
 
         //-------------------------------------------------
@@ -133,7 +134,7 @@ namespace qb
          */
         [[nodiscard]] constexpr Square ToSquare() const
         {
-            return static_cast<Square>(move >> TO_SQUARE_OFFSET & 0x3F);
+            return static_cast<Square>((move >> TO_SQUARE_OFFSET) & 0x3F);
         }
 
         /**
@@ -143,7 +144,7 @@ namespace qb
          */
         [[nodiscard]] constexpr PieceType TypeOfPiece() const
         {
-            return static_cast<PieceType>(move >> PIECE_TYPE_OFFSET & 0x07);
+            return static_cast<PieceType>((move >> PIECE_TYPE_OFFSET) & 0x07);
         }
 
         /**
@@ -153,7 +154,7 @@ namespace qb
          */
         [[nodiscard]] constexpr PieceType TypeOfPromotionPiece() const
         {
-            return static_cast<PieceType>(move >> PROMOTION_PIECE_TYPE_OFFSET & 0x07);
+            return static_cast<PieceType>((move >> PROMOTION_PIECE_TYPE_OFFSET) & 0x07);
         }
 
         /**
@@ -163,7 +164,7 @@ namespace qb
          */
         [[nodiscard]] constexpr MoveType TypeOfMove() const
         {
-            return static_cast<MoveType>(move >> MOVE_TYPE_OFFSET & 0x03);
+            return static_cast<MoveType>((move >> MOVE_TYPE_OFFSET) & 0x03);
         }
 
         /**
@@ -173,7 +174,7 @@ namespace qb
          */
         [[nodiscard]] constexpr PieceType TypeOfCapturedPiece() const
         {
-            return static_cast<PieceType>(move >> CAPTURED_PIECE_TYPE_OFFSET & 0x07);
+            return static_cast<PieceType>((move >> CAPTURED_PIECE_TYPE_OFFSET) & 0x07);
         }
 
         /**
@@ -190,10 +191,10 @@ namespace qb
             {
                 switch (TypeOfPromotionPiece())
                 {
-                case KNIGHT: str += "n"; break;
-                case BISHOP: str += "b"; break;
-                case ROOK:   str += "r"; break;
-                case QUEEN:  str += "q"; break;
+                case KNIGHT: str += 'n'; break;
+                case BISHOP: str += 'b'; break;
+                case ROOK:   str += 'r'; break;
+                case QUEEN:  str += 'q'; break;
                 default: break;
                 }
             }
@@ -201,10 +202,7 @@ namespace qb
             return str;
         }
 
-        constexpr bool operator==(const Move& t_other) const noexcept
-        {
-            return move == t_other.move;
-        }
+        constexpr bool operator==(const Move&) const noexcept = default;
     };
 
     inline std::ostream& operator<<(std::ostream& t_os, const Move& t_move)
