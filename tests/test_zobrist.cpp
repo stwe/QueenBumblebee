@@ -1,6 +1,6 @@
 // This file is part of the QueenBumblebee project.
 //
-// Copyright (c) 2025. stwe <https://github.com/stwe/QueenBumblebee>
+// Copyright (c) 2026. stwe <https://github.com/stwe/QueenBumblebee>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -18,6 +18,7 @@
 
 #define CATCH_CONFIG_MAIN
 
+#include <unordered_set>
 #include <catch2/catch_test_macros.hpp>
 #include "Zobrist.h"
 
@@ -48,5 +49,29 @@ TEST_CASE("ZobristKeys deterministic generation")
     {
         REQUIRE(zobrist1.GetSideToMoveKey() == zobrist2.GetSideToMoveKey());
     }
-}
 
+    SECTION("Keys are unique and non-zero")
+    {
+        std::unordered_set<uint64_t> keys;
+
+        for (size_t color{ 0 }; color < 2; ++color)
+        {
+            for (size_t piece{ 0 }; piece < 6; ++piece)
+            {
+                for (size_t square{ 0 }; square < 64; ++square)
+                {
+                    auto key { zobrist1.GetPieceSquareKey(
+                        static_cast<qb::Color>(color),
+                        static_cast<qb::PieceType>(piece),
+                        static_cast<qb::Square>(square)
+                    ) };
+
+                    REQUIRE(key != 0);
+
+                    auto [fst, snd]{ keys.insert(key) };
+                    REQUIRE(snd == true); // .second ist false, wenn das Element schon existierte
+                }
+            }
+        }
+    }
+}
