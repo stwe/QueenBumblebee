@@ -18,6 +18,7 @@
 
 #pragma once
 
+#include <inplace_vector>
 #include "Utils.h"
 
 //-------------------------------------------------
@@ -454,20 +455,17 @@ namespace qb
     }
 
     /**
-     * @brief Extracts all set bits from a bitboard and returns them as a list of squares.
+     * @brief Extracts all set bits from a bitboard and returns them as a stack-allocated list of squares.
      *
-     * This function scans the bitboard from least to most significant bit, using a fast pop_lsb()
-     * operation to identify and remove the lowest set bit. The corresponding square indices are
-     * returned in a vector, in the order they were found.
+     * Uses C++26 std::inplace_vector to completely avoid slow heap allocations.
      *
      * @param t_bitboard The bitboard to scan for set bits.
      *
-     * @return std::vector<Square> A vector containing all set square indices in the bitboard.
+     * @return std::inplace_vector<Square, 64> A stack-allocated vector containing all set square indices.
      */
-    inline std::vector<Square> bitscan_all(U64 t_bitboard)
+    inline std::inplace_vector<Square, 64> bitscan_all(U64 t_bitboard)
     {
-        std::vector<Square> sq;
-        sq.reserve(popcount(t_bitboard));
+        std::inplace_vector<Square, 64> sq;
         while (t_bitboard)
         {
             sq.push_back(pop_lsb(t_bitboard));

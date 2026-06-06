@@ -1,6 +1,6 @@
 // This file is part of the QueenBumblebee project.
 //
-// Copyright (c) 2025. stwe <https://github.com/stwe/QueenBumblebee>
+// Copyright (c) 2026. stwe <https://github.com/stwe/QueenBumblebee>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -16,6 +16,9 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
+#include <iostream>
+#include <chrono>
+#include <iomanip>
 #include <catch2/catch_test_macros.hpp>
 #include "Board.h"
 #include "MoveGenerator.h"
@@ -75,6 +78,36 @@ const std::array CASES
         .expectedNodes = 3894594,
     }
 };
+
+TEST_CASE("Benchmark: Kiwipete", "[.][benchmark][kiwipete]")
+{
+    constexpr auto PERFT_CASE{ 1 };
+
+    qb::Board board;
+    REQUIRE(board.InitWithFen(CASES[PERFT_CASE].fen));
+    qb::MoveGenerator moveGenerator(&board);
+
+    std::cout << "\n==================================================\n";
+    std::cout << "Starting Kiwipete Benchmark (Depth " << CASES[PERFT_CASE].depth << ")..." << std::endl;
+
+    const auto start{ std::chrono::high_resolution_clock::now() };
+    const auto nodes{ qb::Perft::RunPerft(&board, &moveGenerator, CASES[PERFT_CASE].depth) };
+    const auto end{ std::chrono::high_resolution_clock::now() };
+
+    const auto durationNs{ std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count() };
+    const double durationMs{ durationNs / 1'000'000.0 };
+    const double seconds{ durationNs / 1'000'000'000.0 };
+    const double mnps{ (seconds > 0) ? (nodes / seconds) / 1'000'000.0 : 0 };
+
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << "Result:  " << (nodes == CASES[PERFT_CASE].expectedNodes ? "PASSED" : "FAILED") << "\n"
+              << "Nodes:   " << nodes << "\n"
+              << "Time:    " << durationMs << " ms\n"
+              << "Speed:   " << mnps << " MNps (Million Nodes per Second)\n";
+    std::cout << "==================================================\n\n";
+
+    REQUIRE(nodes == CASES[PERFT_CASE].expectedNodes);
+}
 
 TEST_CASE("Perft Tests", "[perft]")
 {

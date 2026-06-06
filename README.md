@@ -24,8 +24,8 @@ It focuses on **correctness**, **clarity**, and a solid foundation for future st
 ### Requirements
 
 - **Linux** system
-- C++23-capable compiler (GCC or Clang)
-- CMake ≥ 3.20
+- C++26-capable compiler (GCC 16)
+- CMake ≥ 4.3
 
 ---
 
