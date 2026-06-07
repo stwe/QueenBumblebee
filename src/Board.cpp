@@ -1,6 +1,6 @@
 // This file is part of the QueenBumblebee project.
 //
-// Copyright (c) 2025. stwe <https://github.com/stwe/QueenBumblebee>
+// Copyright (c) 2026. stwe <https://github.com/stwe/QueenBumblebee>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -432,7 +432,7 @@ bool qb::Board::IsKingInCheck(const Color t_bySide) const
 
 bool qb::Board::IsSquareAttacked(const Color t_bySide, const Square t_targetSq) const
 {
-    const U64 targetBb{ SQUARE_BITBOARDS[t_targetSq] };
+    const U64 targetBb{ square_bitboard(t_targetSq) };
     const U64 occupied{ bitboards.allPieces };
 
     const U64 pawnsBb = t_bySide == WHITE
@@ -484,12 +484,12 @@ bool qb::Board::IsSquareAttacked(const Color t_bySide, const Square t_targetSq) 
         const U64 diagBlockers = occupied & diagMask;
         const U64 adiagBlockers = occupied & adiagMask;
 
-        if (MoveGenerator::SlidingAttacks(diagBlockers, SQUARE_BITBOARDS[fromSq], diagMask) & targetBb)
+        if (MoveGenerator::SlidingAttacks(diagBlockers, square_bitboard(fromSq), diagMask) & targetBb)
         {
             return true;
         }
 
-        if (MoveGenerator::SlidingAttacks(adiagBlockers, SQUARE_BITBOARDS[fromSq], adiagMask) & targetBb)
+        if (MoveGenerator::SlidingAttacks(adiagBlockers, square_bitboard(fromSq), adiagMask) & targetBb)
         {
             return true;
         }
@@ -508,12 +508,12 @@ bool qb::Board::IsSquareAttacked(const Color t_bySide, const Square t_targetSq) 
         const U64 fileBlockers = occupied & fileMask;
         const U64 rankBlockers = occupied & rankMask;
 
-        if (MoveGenerator::SlidingAttacks(fileBlockers, SQUARE_BITBOARDS[fromSq], fileMask) & targetBb)
+        if (MoveGenerator::SlidingAttacks(fileBlockers, square_bitboard(fromSq), fileMask) & targetBb)
         {
             return true;
         }
 
-        if (MoveGenerator::SlidingAttacks(rankBlockers, SQUARE_BITBOARDS[fromSq], rankMask) & targetBb)
+        if (MoveGenerator::SlidingAttacks(rankBlockers, square_bitboard(fromSq), rankMask) & targetBb)
         {
             return true;
         }

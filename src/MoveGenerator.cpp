@@ -1,6 +1,6 @@
 // This file is part of the QueenBumblebee project.
 //
-// Copyright (c) 2025. stwe <https://github.com/stwe/QueenBumblebee>
+// Copyright (c) 2026. stwe <https://github.com/stwe/QueenBumblebee>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -128,8 +128,8 @@ U64 qb::MoveGenerator::GenerateAttackedSquares(const Color t_bySide) const
         const U64 diagMask{ DIAGONAL_MASKS[diagonal_index(fromSq)] };
         const U64 adiagMask{ ANTIDIAGONAL_MASKS[antidiagonal_index(fromSq)] };
 
-        attackedBb |= SlidingAttacks(occupied & diagMask, SQUARE_BITBOARDS[fromSq], diagMask);
-        attackedBb |= SlidingAttacks(occupied & adiagMask, SQUARE_BITBOARDS[fromSq], adiagMask);
+        attackedBb |= SlidingAttacks(occupied & diagMask, square_bitboard(fromSq), diagMask);
+        attackedBb |= SlidingAttacks(occupied & adiagMask, square_bitboard(fromSq), adiagMask);
     }
 
     // Rook and Queen (ranks and files)
@@ -142,8 +142,8 @@ U64 qb::MoveGenerator::GenerateAttackedSquares(const Color t_bySide) const
         const U64 fileMask{ FILE_MASKS[file_of(fromSq)] };
         const U64 rankMask{ RANK_MASKS[rank_of(fromSq)] };
 
-        attackedBb |= SlidingAttacks(occupied & fileMask, SQUARE_BITBOARDS[fromSq], fileMask);
-        attackedBb |= SlidingAttacks(occupied & rankMask, SQUARE_BITBOARDS[fromSq], rankMask);
+        attackedBb |= SlidingAttacks(occupied & fileMask, square_bitboard(fromSq), fileMask);
+        attackedBb |= SlidingAttacks(occupied & rankMask, square_bitboard(fromSq), rankMask);
     }
 
     return attackedBb;
@@ -239,10 +239,10 @@ int qb::MoveGenerator::CountAttackers(const Square t_square, const Color t_attac
         const U64 diagMaskBb{ DIAGONAL_MASKS[diagonal_index(fromSq)] };
         const U64 antiDiagMaskBb{ ANTIDIAGONAL_MASKS[antidiagonal_index(fromSq)] };
 
-        U64 attacksBb{ SlidingAttacks(allPiecesBb & diagMaskBb, SQUARE_BITBOARDS[fromSq], diagMaskBb) };
-        attacksBb |= SlidingAttacks(allPiecesBb & antiDiagMaskBb, SQUARE_BITBOARDS[fromSq], antiDiagMaskBb);
+        U64 attacksBb{ SlidingAttacks(allPiecesBb & diagMaskBb, square_bitboard(fromSq), diagMaskBb) };
+        attacksBb |= SlidingAttacks(allPiecesBb & antiDiagMaskBb, square_bitboard(fromSq), antiDiagMaskBb);
 
-        if (attacksBb & SQUARE_BITBOARDS[t_square])
+        if (attacksBb & square_bitboard(t_square))
         {
             attackers++;
         }
@@ -256,10 +256,10 @@ int qb::MoveGenerator::CountAttackers(const Square t_square, const Color t_attac
         const U64 rankMaskBb{ RANK_MASKS[rank_of(fromSq)] };
         const U64 fileMaskBb{ FILE_MASKS[file_of(fromSq)] };
 
-        U64 attacksBb{ SlidingAttacks(allPiecesBb & rankMaskBb, SQUARE_BITBOARDS[fromSq], rankMaskBb) };
-        attacksBb |= SlidingAttacks(allPiecesBb & fileMaskBb, SQUARE_BITBOARDS[fromSq], fileMaskBb);
+        U64 attacksBb{ SlidingAttacks(allPiecesBb & rankMaskBb, square_bitboard(fromSq), rankMaskBb) };
+        attacksBb |= SlidingAttacks(allPiecesBb & fileMaskBb, square_bitboard(fromSq), fileMaskBb);
 
-        if (attacksBb & SQUARE_BITBOARDS[t_square])
+        if (attacksBb & square_bitboard(t_square))
         {
             attackers++;
         }
@@ -287,7 +287,7 @@ void qb::MoveGenerator::GeneratePawnMoves(std::vector<Move>& t_moves, const Colo
 
     for (Square fromSq : bitscan_all(pawnsBb))
     {
-        const U64 fromBb{ SQUARE_BITBOARDS[fromSq] };
+        const U64 fromBb{ square_bitboard(fromSq) };
 
         // quiet push (non-promotion)
         // quiet double push
@@ -363,7 +363,7 @@ void qb::MoveGenerator::GeneratePawnMoves(std::vector<Move>& t_moves, const Colo
         const Square enPassantSq{ m_board->positionState.enPassantSquare };
         if (enPassantSq != SQ_NONE)
         {
-            if (attacksBb & SQUARE_BITBOARDS[enPassantSq])
+            if (attacksBb & square_bitboard(enPassantSq))
             {
                 t_moves.emplace_back(fromSq, enPassantSq, PAWN, NO_PIECE_TYPE, EN_PASSANT, PAWN);
             }
@@ -500,7 +500,7 @@ void qb::MoveGenerator::GenerateRookMoves(std::vector<Move>& t_moves, const Colo
 
     for (const Square fromSq : bitscan_all(rooksBb))
     {
-        const U64 rookBb{ SQUARE_BITBOARDS[fromSq] };
+        const U64 rookBb{ square_bitboard(fromSq) };
 
         const U64 rankMask{ RANK_MASKS[rank_of(fromSq)] };
         const U64 rankAttacks{ SlidingAttacks(occupied & rankMask, rookBb, rankMask) };
@@ -511,7 +511,7 @@ void qb::MoveGenerator::GenerateRookMoves(std::vector<Move>& t_moves, const Colo
         const U64 attacks{ (rankAttacks | fileAttacks) & ~ownPiecesBb };
         for (const Square toSq : bitscan_all(attacks))
         {
-            if (enemyPiecesBb & SQUARE_BITBOARDS[toSq])
+            if (enemyPiecesBb & square_bitboard(toSq))
             {
                 const auto [capPieceType, _]{ m_board->positionState.pieceBoard[toSq] };
                 t_moves.emplace_back(fromSq, toSq, ROOK, NO_PIECE_TYPE, NORMAL, capPieceType);
@@ -534,7 +534,7 @@ void qb::MoveGenerator::GenerateBishopMoves(std::vector<Move>& t_moves, const Co
 
     for (const Square fromSq : bitscan_all(bishopsBb))
     {
-        const U64 bishopBb{ SQUARE_BITBOARDS[fromSq] };
+        const U64 bishopBb{ square_bitboard(fromSq) };
 
         const U64 diagMask{ DIAGONAL_MASKS[diagonal_index(fromSq)] };
         const U64 diagAttacks{ SlidingAttacks(occupied & diagMask, bishopBb, diagMask) };
@@ -545,7 +545,7 @@ void qb::MoveGenerator::GenerateBishopMoves(std::vector<Move>& t_moves, const Co
         const U64 attacks{ (diagAttacks | antiDiagAttacks) & ~ownPiecesBb };
         for (const Square toSq : bitscan_all(attacks))
         {
-            if (enemyPiecesBb & SQUARE_BITBOARDS[toSq])
+            if (enemyPiecesBb & square_bitboard(toSq))
             {
                 const auto [capPieceType, _]{ m_board->positionState.pieceBoard[toSq] };
                 t_moves.emplace_back(fromSq, toSq, BISHOP, NO_PIECE_TYPE, NORMAL, capPieceType);
@@ -568,7 +568,7 @@ void qb::MoveGenerator::GenerateQueenMoves(std::vector<Move>& t_moves, const Col
 
     for (const Square fromSq : bitscan_all(queensBb))
     {
-        const U64 queenBb{ SQUARE_BITBOARDS[fromSq] };
+        const U64 queenBb{ square_bitboard(fromSq) };
 
         const U64 diagMask{ DIAGONAL_MASKS[diagonal_index(fromSq)] };
         const U64 diagAttacks{ SlidingAttacks(occupied & diagMask, queenBb, diagMask) };
@@ -585,7 +585,7 @@ void qb::MoveGenerator::GenerateQueenMoves(std::vector<Move>& t_moves, const Col
         const U64 attacks{ (rankAttacks | fileAttacks | diagAttacks | antiDiagAttacks) & ~ownPiecesBb };
         for (const Square toSq : bitscan_all(attacks))
         {
-            if (enemyPiecesBb & SQUARE_BITBOARDS[toSq])
+            if (enemyPiecesBb & square_bitboard(toSq))
             {
                 const auto [capPieceType, _]{ m_board->positionState.pieceBoard[toSq] };
                 t_moves.emplace_back(fromSq, toSq, QUEEN, NO_PIECE_TYPE, NORMAL, capPieceType);

@@ -146,19 +146,17 @@ namespace qb
     inline constexpr U64 H8{ 0x8000000000000000 };
 
     /**
-     * @brief Precomputed bitboards for each square on a chessboard.
+     * @brief Computes the bitboard for the specified square.
+     *
+     * @param t_square The square for which the bitboard is requested.
+     *
+     * @return A U64 bitboard with only the bit of the given square set.
      */
-    inline constexpr std::array SQUARE_BITBOARDS
+    [[nodiscard]] constexpr U64 square_bitboard(const Square t_square) noexcept
     {
-        A1, B1, C1, D1, E1, F1, G1, H1,
-        A2, B2, C2, D2, E2, F2, G2, H2,
-        A3, B3, C3, D3, E3, F3, G3, H3,
-        A4, B4, C4, D4, E4, F4, G4, H4,
-        A5, B5, C5, D5, E5, F5, G5, H5,
-        A6, B6, C6, D6, E6, F6, G6, H6,
-        A7, B7, C7, D7, E7, F7, G7, H7,
-        A8, B8, C8, D8, E8, F8, G8, H8
-    };
+        QB_ASSERT(is_valid_square(t_square), "[square_bitboard()] Invalid square.");
+        return 1ULL << static_cast<unsigned int>(t_square);
+    }
 
     //-------------------------------------------------
     // File bitboards
@@ -218,7 +216,7 @@ namespace qb
         {
             if (diagonal_index(static_cast<Square>(sq)) == t_diagIndex)
             {
-                mask |= SQUARE_BITBOARDS[sq];
+                mask |= square_bitboard(static_cast<Square>(sq));
             }
         }
 
@@ -241,7 +239,7 @@ namespace qb
         {
             if (antidiagonal_index(static_cast<Square>(sq)) == t_adiagIndex)
             {
-                mask |= SQUARE_BITBOARDS[sq];
+                mask |= square_bitboard(static_cast<Square>(sq));
             }
         }
 
@@ -324,19 +322,6 @@ namespace qb
         t_bitboard = (t_bitboard >> 32) | (t_bitboard << 32);
 
         return t_bitboard;
-    }
-
-    /**
-     * @brief Returns the precomputed bitboard for the specified square.
-     *
-     * @param t_square The square for which the bitboard is requested.
-     *
-     * @return The bitboard corresponding to the given square.
-     */
-    [[nodiscard]] constexpr U64 square_bitboard(const Square t_square)
-    {
-        QB_ASSERT(is_valid_square(t_square), "[square_bitboard()] Invalid square.");
-        return SQUARE_BITBOARDS[t_square];
     }
 
     /**

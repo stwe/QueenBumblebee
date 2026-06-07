@@ -34,7 +34,7 @@ constexpr auto REFERENCE_DIAG_MASK = [](const int t_diagIdx) {
     {
         if (qb::diagonal_index(static_cast<qb::Square>(sq)) == t_diagIdx)
         {
-            mask |= qb::SQUARE_BITBOARDS[sq];
+            mask |= qb::square_bitboard(static_cast<qb::Square>(sq));
         }
     }
 
@@ -47,7 +47,7 @@ constexpr auto REFERENCE_ANTI_DIAG_MASK = [](const int t_adiagIdx) {
     {
         if (qb::antidiagonal_index(static_cast<qb::Square>(sq)) == t_adiagIdx)
         {
-            mask |= qb::SQUARE_BITBOARDS[sq];
+            mask |= qb::square_bitboard(static_cast<qb::Square>(sq));
         }
     }
 
