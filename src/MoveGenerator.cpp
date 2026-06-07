@@ -142,8 +142,11 @@ U64 qb::MoveGenerator::GenerateAttackedSquares(const Color t_bySide) const
     const U64 rookSliders{ rooksBb | queensBb };
     for (const Square fromSq : bitscan_all(rookSliders))
     {
-        const U64 fileMask{ FILE_MASKS[file_of(fromSq)] };
-        const U64 rankMask{ RANK_MASKS[rank_of(fromSq)] };
+        //const U64 fileMask{ FILE_MASKS[file_of(fromSq)] };
+        //const U64 rankMask{ RANK_MASKS[rank_of(fromSq)] };
+
+        const U64 fileMask{ SQUARE_FILE_MASKS[static_cast<int>(fromSq)] };
+        const U64 rankMask{ SQUARE_RANK_MASKS[static_cast<int>(fromSq)] };
 
         attackedBb |= SlidingAttacks(occupied & fileMask, square_bitboard(fromSq), fileMask);
         attackedBb |= SlidingAttacks(occupied & rankMask, square_bitboard(fromSq), rankMask);
@@ -259,8 +262,11 @@ int qb::MoveGenerator::CountAttackers(const Square t_square, const Color t_attac
 
     for (const Square fromSq : bitscan_all(rooksBb | queensBb))
     {
-        const U64 rankMaskBb{ RANK_MASKS[rank_of(fromSq)] };
-        const U64 fileMaskBb{ FILE_MASKS[file_of(fromSq)] };
+        //const U64 rankMaskBb{ RANK_MASKS[rank_of(fromSq)] };
+        //const U64 fileMaskBb{ FILE_MASKS[file_of(fromSq)] };
+
+        const U64 rankMaskBb{ SQUARE_RANK_MASKS[static_cast<int>(fromSq)] };
+        const U64 fileMaskBb{ SQUARE_FILE_MASKS[static_cast<int>(fromSq)] };
 
         U64 attacksBb{ SlidingAttacks(allPiecesBb & rankMaskBb, square_bitboard(fromSq), rankMaskBb) };
         attacksBb |= SlidingAttacks(allPiecesBb & fileMaskBb, square_bitboard(fromSq), fileMaskBb);
@@ -508,10 +514,12 @@ void qb::MoveGenerator::GenerateRookMoves(std::vector<Move>& t_moves, const Colo
     {
         const U64 rookBb{ square_bitboard(fromSq) };
 
-        const U64 rankMask{ RANK_MASKS[rank_of(fromSq)] };
+        //const U64 rankMask{ RANK_MASKS[rank_of(fromSq)] };
+        const U64 rankMask{ SQUARE_RANK_MASKS[static_cast<int>(fromSq)] };
         const U64 rankAttacks{ SlidingAttacks(occupied & rankMask, rookBb, rankMask) };
 
-        const U64 fileMask{ FILE_MASKS[file_of(fromSq)] };
+        //const U64 fileMask{ FILE_MASKS[file_of(fromSq)] };
+        const U64 fileMask{ SQUARE_FILE_MASKS[static_cast<int>(fromSq)] };
         const U64 fileAttacks{ SlidingAttacks(occupied & fileMask, rookBb, fileMask) };
 
         const U64 attacks{ (rankAttacks | fileAttacks) & ~ownPiecesBb };
@@ -586,10 +594,12 @@ void qb::MoveGenerator::GenerateQueenMoves(std::vector<Move>& t_moves, const Col
         const U64 antiDiagMask{ SQUARE_ANTIDIAGONAL_MASKS[static_cast<int>(fromSq)] };
         const U64 antiDiagAttacks{ SlidingAttacks(occupied & antiDiagMask, queenBb, antiDiagMask) };
 
-        const U64 rankMask{ RANK_MASKS[rank_of(fromSq)] };
+        //const U64 rankMask{ RANK_MASKS[rank_of(fromSq)] };
+        const U64 rankMask{ SQUARE_RANK_MASKS[static_cast<int>(fromSq)] };
         const U64 rankAttacks{ SlidingAttacks(occupied & rankMask, queenBb, rankMask) };
 
-        const U64 fileMask{ FILE_MASKS[file_of(fromSq)] };
+        //const U64 fileMask{ FILE_MASKS[file_of(fromSq)] };
+        const U64 fileMask{ SQUARE_FILE_MASKS[static_cast<int>(fromSq)] };
         const U64 fileAttacks{ SlidingAttacks(occupied & fileMask, queenBb, fileMask) };
 
         const U64 attacks{ (rankAttacks | fileAttacks | diagAttacks | antiDiagAttacks) & ~ownPiecesBb };
