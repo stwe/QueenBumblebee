@@ -2,6 +2,14 @@ cmake_minimum_required(VERSION 4.3)
 
 project(QueenBumblebee)
 
+if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    message(FATAL_ERROR
+        "\n[QueenBumblebee] Error: This project requires the GCC compiler (g++).\n"
+        "Detected compiler: ${CMAKE_CXX_COMPILER_ID}\n"
+        "Please configure your IDE/Toolchain to use GCC."
+    )
+endif()
+
 set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -21,8 +29,10 @@ FetchContent_Declare(
     GIT_TAG v3.12.0
 )
 
-FetchContent_MakeAvailable(spdlog)
-FetchContent_MakeAvailable(Catch2)
+set(CATCH_INSTALL_HELPERS OFF CACHE INTERNAL "")
+set(CATCH_BUILD_TESTING OFF CACHE INTERNAL "")
+
+FetchContent_MakeAvailable(spdlog Catch2)
 
 add_subdirectory(src)
 

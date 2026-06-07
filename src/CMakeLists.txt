@@ -38,8 +38,17 @@ target_link_libraries(QueenBumblebee
         spdlog::spdlog
 )
 
+target_compile_options(queen_bumblebee_lib PRIVATE -march=native)
+
+include(CheckIPOSupported)
+check_ipo_supported(RESULT lto_supported OUTPUT error)
+if(lto_supported)
+    set_target_properties(queen_bumblebee_lib PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
+    set_target_properties(QueenBumblebee PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
+endif()
+
 add_custom_command(TARGET QueenBumblebee POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     ${CMAKE_SOURCE_DIR}/books
-    $<TARGET_FILE_DIR:${PROJECT_NAME}>/books
+    "$<TARGET_FILE_DIR:QueenBumblebee>/books"
 )

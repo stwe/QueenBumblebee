@@ -19,6 +19,7 @@
 #pragma once
 
 #include <inplace_vector>
+#include <bit>
 #include "Utils.h"
 
 //-------------------------------------------------
@@ -312,14 +313,13 @@ namespace qb
      *
      * @return The input with all 64 bits in the opposite order.
      */
-    [[nodiscard]] constexpr U64 reverse_bits(U64 t_bitboard)
+    [[nodiscard]] constexpr U64 reverse_bits(U64 t_bitboard) noexcept
     {
+        t_bitboard = std::byteswap(t_bitboard);
+
         t_bitboard = ((t_bitboard >> 1) & 0x5555555555555555ULL) | ((t_bitboard & 0x5555555555555555ULL) << 1);
         t_bitboard = ((t_bitboard >> 2) & 0x3333333333333333ULL) | ((t_bitboard & 0x3333333333333333ULL) << 2);
         t_bitboard = ((t_bitboard >> 4) & 0x0F0F0F0F0F0F0F0FULL) | ((t_bitboard & 0x0F0F0F0F0F0F0F0FULL) << 4);
-        t_bitboard = ((t_bitboard >> 8) & 0x00FF00FF00FF00FFULL) | ((t_bitboard & 0x00FF00FF00FF00FFULL) << 8);
-        t_bitboard = ((t_bitboard >> 16) & 0x0000FFFF0000FFFFULL) | ((t_bitboard & 0x0000FFFF0000FFFFULL) << 16);
-        t_bitboard = (t_bitboard >> 32) | (t_bitboard << 32);
 
         return t_bitboard;
     }
