@@ -331,7 +331,7 @@ namespace qb
      * @param t_file The File of the square to set.
      * @param t_rank The Rank of the square to set.
      */
-    constexpr void set_bit(U64& t_bitboard, const File t_file, const Rank t_rank)
+    constexpr void set_bit(U64& t_bitboard, const File t_file, const Rank t_rank) noexcept
     {
         QB_ASSERT(is_valid_file(t_file), "[set_bit()] Invalid file.");
         QB_ASSERT(is_valid_rank(t_rank), "[set_bit()] Invalid rank.");
@@ -344,7 +344,7 @@ namespace qb
      * @param t_bitboard Reference to the bitboard to be updated.
      * @param t_square The square whose corresponding bit is to be set.
      */
-    constexpr void set_bit(U64& t_bitboard, const Square t_square)
+    constexpr void set_bit(U64& t_bitboard, const Square t_square) noexcept
     {
         t_bitboard |= square_bitboard(t_square);
     }
@@ -355,7 +355,7 @@ namespace qb
      * @param t_bitboard Reference to the bitboard to modify.
      * @param t_square The square whose corresponding bit will be cleared.
      */
-    constexpr void clear_bit(U64& t_bitboard, const Square t_square)
+    constexpr void clear_bit(U64& t_bitboard, const Square t_square) noexcept
     {
         t_bitboard &= ~square_bitboard(t_square);
     }
@@ -369,7 +369,7 @@ namespace qb
      *
      * @return True if the bit is set, false otherwise.
      */
-    [[nodiscard]] constexpr bool is_bit_set(const U64 t_bitboard, const File t_file, const Rank t_rank)
+    [[nodiscard]] constexpr bool is_bit_set(const U64 t_bitboard, const File t_file, const Rank t_rank) noexcept
     {
         QB_ASSERT(is_valid_file(t_file), "[is_bit_set()] Invalid file.");
         QB_ASSERT(is_valid_rank(t_rank), "[is_bit_set()] Invalid rank.");
@@ -384,7 +384,7 @@ namespace qb
      *
      * @return True if the bit is set; false otherwise.
      */
-    [[nodiscard]] constexpr bool is_bit_set(const U64 t_bitboard, const Square t_square)
+    [[nodiscard]] constexpr bool is_bit_set(const U64 t_bitboard, const Square t_square) noexcept
     {
         return (t_bitboard & square_bitboard(t_square)) != 0;
     }
@@ -399,7 +399,7 @@ namespace qb
      *
      * @return The Square corresponding to the least significant set bit.
      */
-    inline Square get_lsb(const U64 t_bitboard)
+    inline Square get_lsb(const U64 t_bitboard) noexcept
     {
         QB_ASSERT(t_bitboard, "[get_lsb()] Invalid bitboard.");
         return static_cast<Square>(__builtin_ctzll(t_bitboard));
@@ -412,7 +412,7 @@ namespace qb
      *
      * @return The Square of the cleared least-significant-bit.
      */
-    inline Square pop_lsb(U64& t_bitboard)
+    inline Square pop_lsb(U64& t_bitboard) noexcept
     {
         QB_ASSERT(t_bitboard, "[pop_lsb()] Invalid bitboard.");
 
@@ -434,7 +434,7 @@ namespace qb
      *
      * @return int The number of set bits in the bitboard.
      */
-    inline int popcount(const U64 t_bitboard)
+    inline int popcount(const U64 t_bitboard) noexcept
     {
         return __builtin_popcountll(t_bitboard);
     }
@@ -448,7 +448,7 @@ namespace qb
      *
      * @return std::inplace_vector<Square, 64> A stack-allocated vector containing all set square indices.
      */
-    inline std::inplace_vector<Square, 64> bitscan_all(U64 t_bitboard)
+    inline std::inplace_vector<Square, 64> bitscan_all(U64 t_bitboard) noexcept
     {
         std::inplace_vector<Square, 64> sq;
         while (t_bitboard)
