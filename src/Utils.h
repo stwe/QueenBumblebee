@@ -1,6 +1,6 @@
 // This file is part of the QueenBumblebee project.
 //
-// Copyright (c) 2025. stwe <https://github.com/stwe/QueenBumblebee>
+// Copyright (c) 2026. stwe <https://github.com/stwe/QueenBumblebee>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -201,7 +201,12 @@ namespace qb
         const int file{ t_string[0] - 'a' };
         const int rank{ t_string[1] - '1' };
 
-        return static_cast<Square>(rank * 8 + file);
+        if (file < 0 || file > 7 || rank < 0 || rank > 7)
+        {
+            return SQ_NONE;
+        }
+
+        return static_cast<Square>((rank << 3) + file);
     }
 
     //-------------------------------------------------
@@ -250,9 +255,14 @@ namespace qb
      *
      * @return The corresponding PieceType, or NO_PIECE_TYPE if the character is invalid.
      */
-    [[nodiscard]] constexpr PieceType piece_type_from_char(const char t_pieceChar)
+    [[nodiscard]] constexpr PieceType piece_type_from_char(char t_pieceChar)
     {
-        switch (std::tolower(t_pieceChar))
+        if (t_pieceChar >= 'A' && t_pieceChar <= 'Z')
+        {
+            t_pieceChar |= 32;
+        }
+
+        switch (t_pieceChar)
         {
         case 'p':
             return PAWN;
