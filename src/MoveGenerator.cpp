@@ -125,9 +125,6 @@ U64 qb::MoveGenerator::GenerateAttackedSquares(const Color t_bySide) const
     const U64 diagSliders{ bishopsBb | queensBb };
     for (const Square fromSq : bitscan_all(diagSliders))
     {
-        //const U64 diagMask{ DIAGONAL_MASKS[diagonal_index(fromSq)] };
-        //const U64 adiagMask{ ANTIDIAGONAL_MASKS[antidiagonal_index(fromSq)] };
-
         const U64 diagMask{ SQUARE_DIAGONAL_MASKS[static_cast<int>(fromSq)] };
         const U64 adiagMask{ SQUARE_ANTIDIAGONAL_MASKS[static_cast<int>(fromSq)] };
 
@@ -142,9 +139,6 @@ U64 qb::MoveGenerator::GenerateAttackedSquares(const Color t_bySide) const
     const U64 rookSliders{ rooksBb | queensBb };
     for (const Square fromSq : bitscan_all(rookSliders))
     {
-        //const U64 fileMask{ FILE_MASKS[file_of(fromSq)] };
-        //const U64 rankMask{ RANK_MASKS[rank_of(fromSq)] };
-
         const U64 fileMask{ SQUARE_FILE_MASKS[static_cast<int>(fromSq)] };
         const U64 rankMask{ SQUARE_RANK_MASKS[static_cast<int>(fromSq)] };
 
@@ -242,9 +236,6 @@ int qb::MoveGenerator::CountAttackers(const Square t_square, const Color t_attac
 
     for (const Square fromSq : bitscan_all(bishopsBb | queensBb))
     {
-        //const U64 diagMaskBb{ DIAGONAL_MASKS[diagonal_index(fromSq)] };
-        //const U64 antiDiagMaskBb{ ANTIDIAGONAL_MASKS[antidiagonal_index(fromSq)] };
-
         const U64 diagMaskBb{ SQUARE_DIAGONAL_MASKS[static_cast<int>(fromSq)] };
         const U64 antiDiagMaskBb{ SQUARE_ANTIDIAGONAL_MASKS[static_cast<int>(fromSq)] };
 
@@ -262,9 +253,6 @@ int qb::MoveGenerator::CountAttackers(const Square t_square, const Color t_attac
 
     for (const Square fromSq : bitscan_all(rooksBb | queensBb))
     {
-        //const U64 rankMaskBb{ RANK_MASKS[rank_of(fromSq)] };
-        //const U64 fileMaskBb{ FILE_MASKS[file_of(fromSq)] };
-
         const U64 rankMaskBb{ SQUARE_RANK_MASKS[static_cast<int>(fromSq)] };
         const U64 fileMaskBb{ SQUARE_FILE_MASKS[static_cast<int>(fromSq)] };
 
@@ -514,11 +502,9 @@ void qb::MoveGenerator::GenerateRookMoves(std::vector<Move>& t_moves, const Colo
     {
         const U64 rookBb{ square_bitboard(fromSq) };
 
-        //const U64 rankMask{ RANK_MASKS[rank_of(fromSq)] };
         const U64 rankMask{ SQUARE_RANK_MASKS[static_cast<int>(fromSq)] };
         const U64 rankAttacks{ SlidingAttacks(occupied & rankMask, rookBb, rankMask) };
 
-        //const U64 fileMask{ FILE_MASKS[file_of(fromSq)] };
         const U64 fileMask{ SQUARE_FILE_MASKS[static_cast<int>(fromSq)] };
         const U64 fileAttacks{ SlidingAttacks(occupied & fileMask, rookBb, fileMask) };
 
@@ -550,11 +536,9 @@ void qb::MoveGenerator::GenerateBishopMoves(std::vector<Move>& t_moves, const Co
     {
         const U64 bishopBb{ square_bitboard(fromSq) };
 
-        //const U64 diagMask{ DIAGONAL_MASKS[diagonal_index(fromSq)] };
         const U64 diagMask{ SQUARE_DIAGONAL_MASKS[static_cast<int>(fromSq)] };
         const U64 diagAttacks{ SlidingAttacks(occupied & diagMask, bishopBb, diagMask) };
 
-        //const U64 antiDiagMask{ ANTIDIAGONAL_MASKS[antidiagonal_index(fromSq)] };
         const U64 antiDiagMask{ SQUARE_ANTIDIAGONAL_MASKS[static_cast<int>(fromSq)] };
         const U64 antiDiagAttacks{ SlidingAttacks(occupied & antiDiagMask, bishopBb, antiDiagMask) };
 
@@ -586,19 +570,15 @@ void qb::MoveGenerator::GenerateQueenMoves(std::vector<Move>& t_moves, const Col
     {
         const U64 queenBb{ square_bitboard(fromSq) };
 
-        //const U64 diagMask{ DIAGONAL_MASKS[diagonal_index(fromSq)] };
         const U64 diagMask{ SQUARE_DIAGONAL_MASKS[static_cast<int>(fromSq)] };
         const U64 diagAttacks{ SlidingAttacks(occupied & diagMask, queenBb, diagMask) };
 
-        //const U64 antiDiagMask{ ANTIDIAGONAL_MASKS[antidiagonal_index(fromSq)] };
         const U64 antiDiagMask{ SQUARE_ANTIDIAGONAL_MASKS[static_cast<int>(fromSq)] };
         const U64 antiDiagAttacks{ SlidingAttacks(occupied & antiDiagMask, queenBb, antiDiagMask) };
 
-        //const U64 rankMask{ RANK_MASKS[rank_of(fromSq)] };
         const U64 rankMask{ SQUARE_RANK_MASKS[static_cast<int>(fromSq)] };
         const U64 rankAttacks{ SlidingAttacks(occupied & rankMask, queenBb, rankMask) };
 
-        //const U64 fileMask{ FILE_MASKS[file_of(fromSq)] };
         const U64 fileMask{ SQUARE_FILE_MASKS[static_cast<int>(fromSq)] };
         const U64 fileAttacks{ SlidingAttacks(occupied & fileMask, queenBb, fileMask) };
 
