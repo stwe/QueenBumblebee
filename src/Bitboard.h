@@ -178,6 +178,16 @@ namespace qb
         MASK_FILE_E, MASK_FILE_F, MASK_FILE_G, MASK_FILE_H
     };
 
+    inline constexpr std::array<U64, 64> SQUARE_FILE_MASKS = []() {
+        std::array<U64, 64> masks{};
+        for (int sq{ 0 }; sq < 64; ++sq)
+        {
+            masks[sq] = FILE_MASKS[sq % 8]; // Oder file_index(sq) falls du so eine Funktion hast
+        }
+
+        return masks;
+    }();
+
     //-------------------------------------------------
     // Rank bitboards
     //-------------------------------------------------
@@ -196,6 +206,16 @@ namespace qb
         MASK_RANK_1, MASK_RANK_2, MASK_RANK_3, MASK_RANK_4,
         MASK_RANK_5, MASK_RANK_6, MASK_RANK_7, MASK_RANK_8
     };
+
+    inline constexpr std::array<U64, 64> SQUARE_RANK_MASKS = []() {
+        std::array<U64, 64> masks{};
+        for (int sq { 0 }; sq < 64; ++sq)
+        {
+            masks[sq] = RANK_MASKS[sq / 8]; // Oder rank_index(sq)
+        }
+
+        return masks;
+    }();
 
     //-------------------------------------------------
     // Diagonals
@@ -268,6 +288,26 @@ namespace qb
         generate_anti_diagonal_mask(8), generate_anti_diagonal_mask(9), generate_anti_diagonal_mask(10), generate_anti_diagonal_mask(11),
         generate_anti_diagonal_mask(12), generate_anti_diagonal_mask(13), generate_anti_diagonal_mask(14)
     };
+
+    inline constexpr std::array<U64, 64> SQUARE_DIAGONAL_MASKS = [] {
+        std::array<U64, 64> masks{};
+        for (int sq{ 0 }; sq < 64; ++sq)
+        {
+            masks[sq] = generate_diagonal_mask(diagonal_index(static_cast<Square>(sq)));
+        }
+
+        return masks;
+    }();
+
+    inline constexpr std::array<U64, 64> SQUARE_ANTIDIAGONAL_MASKS = [] {
+        std::array<U64, 64> masks{};
+        for (int sq{ 0 }; sq < 64; ++sq)
+        {
+            masks[sq] = generate_anti_diagonal_mask(antidiagonal_index(static_cast<Square>(sq)));
+        }
+
+        return masks;
+    }();
 
     //-------------------------------------------------
     // Compass
