@@ -1,6 +1,6 @@
 // This file is part of the QueenBumblebee project.
 //
-// Copyright (c) 2025. stwe <https://github.com/stwe/QueenBumblebee>
+// Copyright (c) 2026. stwe <https://github.com/stwe/QueenBumblebee>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -223,7 +223,7 @@ namespace qb
      *
      * @return Combined castling rights.
      */
-    inline CastlingRights operator|(CastlingRights t_lhs, CastlingRights t_rhs)
+    constexpr CastlingRights operator|(CastlingRights t_lhs, CastlingRights t_rhs)
     {
         return static_cast<CastlingRights>(
             static_cast<std::underlying_type_t<CastlingRights>>(t_lhs) |
@@ -238,7 +238,7 @@ namespace qb
      *
      * @return Reference to the modified left-hand operand.
      */
-    inline CastlingRights& operator|=(CastlingRights& t_lhs, CastlingRights t_rhs)
+    constexpr CastlingRights& operator|=(CastlingRights& t_lhs, CastlingRights t_rhs)
     {
         t_lhs = t_lhs | t_rhs;
 
@@ -253,7 +253,7 @@ namespace qb
      *
      * @return The result of the operation based on operands provided.
      */
-    inline CastlingRights operator&(CastlingRights t_lhs, CastlingRights t_rhs)
+    constexpr CastlingRights operator&(CastlingRights t_lhs, CastlingRights t_rhs)
     {
         return static_cast<CastlingRights>(
             static_cast<std::underlying_type_t<CastlingRights>>(t_lhs) &
@@ -269,7 +269,7 @@ namespace qb
      *
      * @return A reference to the updated left-hand side CastlingRights object.
      */
-    inline CastlingRights& operator&=(CastlingRights& t_lhs, CastlingRights t_rhs)
+    constexpr CastlingRights& operator&=(CastlingRights& t_lhs, CastlingRights t_rhs)
     {
         t_lhs = t_lhs & t_rhs;
 
@@ -283,7 +283,7 @@ namespace qb
      *
      * @return The inverted castling rights.
      */
-    inline CastlingRights operator~(CastlingRights t_rhs)
+    constexpr CastlingRights operator~(CastlingRights t_rhs)
     {
         return static_cast<CastlingRights>(~static_cast<std::underlying_type_t<CastlingRights>>(t_rhs));
     }
