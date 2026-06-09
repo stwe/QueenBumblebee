@@ -72,7 +72,6 @@ TEST_CASE("White Bishops attacks black King on C3", "[BishopsC3]")
     REQUIRE(is_bit_set(attacks, qb::SQ_C3));
 }
 
-
 TEST_CASE("White Pawns and Knights attacks black King on C3", "[PawnsKnightsC3]")
 {
     qb::Bitboards bb{};
@@ -300,7 +299,7 @@ TEST_CASE("CountAttackers correctly counts attacks", "[movegen][attackers][count
     }
 }
 
-TEST_CASE("CountAttackers correctly counts attacks", "[movegen][attackers][sliding][count]")
+TEST_CASE("CountAttackers correctly counts sliding attacks", "[movegen][attackers][sliding][count]")
 {
     SECTION("CountAttackers correctly counts bishop attacks")
     {

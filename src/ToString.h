@@ -1,6 +1,6 @@
 // This file is part of the QueenBumblebee project.
 //
-// Copyright (c) 2025. stwe <https://github.com/stwe/QueenBumblebee>
+// Copyright (c) 2026. stwe <https://github.com/stwe/QueenBumblebee>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -62,7 +62,7 @@ namespace qb
      *         - A formatted string representation of the piece (or empty if no piece is present).
      *         - The color of the piece (`WHITE`, `BLACK`, or `NO_COLOR` if empty).
      */
-    [[nodiscard]] constexpr std::pair<std::string, Color> get_piece_string(
+    [[nodiscard]] inline std::pair<std::string, Color> get_piece_string(
         const File t_file,
         const Rank t_rank,
         const Bitboards& t_bitboards
@@ -71,19 +71,23 @@ namespace qb
         QB_ASSERT(is_valid_file(t_file), "[get_piece_string()] Invalid file.");
         QB_ASSERT(is_valid_rank(t_rank), "[get_piece_string()] Invalid rank.");
 
-        if (is_bit_set(t_bitboards.whitePawns, t_file, t_rank)) return { " " + std::string(create_short_piece_string(PAWN, WHITE)) + " ", WHITE };
-        if (is_bit_set(t_bitboards.whiteKnights, t_file, t_rank)) return { " " + std::string(create_short_piece_string(KNIGHT, WHITE)) + " ", WHITE };
-        if (is_bit_set(t_bitboards.whiteBishops, t_file, t_rank)) return { " " + std::string(create_short_piece_string(BISHOP, WHITE)) + " ", WHITE };
-        if (is_bit_set(t_bitboards.whiteRooks, t_file, t_rank)) return { " " + std::string(create_short_piece_string(ROOK, WHITE)) + " ", WHITE };
-        if (is_bit_set(t_bitboards.whiteQueens, t_file, t_rank)) return { " " + std::string(create_short_piece_string(QUEEN, WHITE)) + " ", WHITE };
-        if (is_bit_set(t_bitboards.whiteKing, t_file, t_rank)) return { " " + std::string(create_short_piece_string(KING, WHITE)) + " ", WHITE };
+        auto formatPiece = [](const PieceType t_type, const Color t_color) -> std::pair<std::string, Color> {
+            return { " " + std::string(create_short_piece_string(t_type, t_color)) + " ", t_color };
+        };
 
-        if (is_bit_set(t_bitboards.blackPawns, t_file, t_rank)) return { " " + std::string(create_short_piece_string(PAWN, BLACK)) + " ", BLACK };
-        if (is_bit_set(t_bitboards.blackKnights, t_file, t_rank)) return { " " + std::string(create_short_piece_string(KNIGHT, BLACK)) + " ", BLACK };
-        if (is_bit_set(t_bitboards.blackBishops, t_file, t_rank)) return { " " + std::string(create_short_piece_string(BISHOP, BLACK)) + " ", BLACK };
-        if (is_bit_set(t_bitboards.blackRooks, t_file, t_rank)) return { " " + std::string(create_short_piece_string(ROOK, BLACK)) + " ", BLACK };
-        if (is_bit_set(t_bitboards.blackQueens, t_file, t_rank)) return { " " + std::string(create_short_piece_string(QUEEN, BLACK)) + " ", BLACK };
-        if (is_bit_set(t_bitboards.blackKing, t_file, t_rank)) return { " " + std::string(create_short_piece_string(KING, BLACK)) + " ", BLACK };
+        if (is_bit_set(t_bitboards.whitePawns, t_file, t_rank)) return formatPiece(PAWN, WHITE);
+        if (is_bit_set(t_bitboards.whiteKnights, t_file, t_rank)) return formatPiece(KNIGHT, WHITE);
+        if (is_bit_set(t_bitboards.whiteBishops, t_file, t_rank)) return formatPiece(BISHOP, WHITE);
+        if (is_bit_set(t_bitboards.whiteRooks, t_file, t_rank)) return formatPiece(ROOK, WHITE);
+        if (is_bit_set(t_bitboards.whiteQueens, t_file, t_rank)) return formatPiece(QUEEN, WHITE);
+        if (is_bit_set(t_bitboards.whiteKing, t_file, t_rank)) return formatPiece(KING, WHITE);
+
+        if (is_bit_set(t_bitboards.blackPawns, t_file, t_rank)) return formatPiece(PAWN, BLACK);
+        if (is_bit_set(t_bitboards.blackKnights, t_file, t_rank)) return formatPiece(KNIGHT, BLACK);
+        if (is_bit_set(t_bitboards.blackBishops, t_file, t_rank)) return formatPiece(BISHOP, BLACK);
+        if (is_bit_set(t_bitboards.blackRooks, t_file, t_rank)) return formatPiece(ROOK, BLACK);
+        if (is_bit_set(t_bitboards.blackQueens, t_file, t_rank)) return formatPiece(QUEEN, BLACK);
+        if (is_bit_set(t_bitboards.blackKing, t_file, t_rank)) return formatPiece(KING, BLACK);
 
         return { "   ", NO_COLOR };
     }
@@ -102,6 +106,8 @@ namespace qb
     [[nodiscard]] inline std::string bitboard_to_string(const U64 t_bitboard)
     {
         std::string result;
+        result.reserve(120);
+
         for (int rank{ RANK_8 }; rank >= RANK_1; --rank)
         {
             result += static_cast<char>('1' + rank);
