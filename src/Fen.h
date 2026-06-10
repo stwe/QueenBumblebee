@@ -1,6 +1,6 @@
 // This file is part of the QueenBumblebee project.
 //
-// Copyright (c) 2025. stwe <https://github.com/stwe/QueenBumblebee>
+// Copyright (c) 2026. stwe <https://github.com/stwe/QueenBumblebee>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -19,6 +19,8 @@
 #pragma once
 
 #include <vector>
+#include <string>
+#include <string_view>
 #include "Types.h"
 
 namespace qb
@@ -31,7 +33,7 @@ namespace qb
      * @brief Represents a parser for Forsyth–Edwards Notation (FEN).
      *
      * The Fen class is responsible for parsing a FEN string and extracting chess board state:
-     * piece placement, side to move, castling rights, and en passant square.
+     * piece placement, side to move, castling rights, en passant square, halfmove clock, and fullmove number.
      */
     class Fen
     {
@@ -97,6 +99,16 @@ namespace qb
          */
         [[nodiscard]] Square GetEnPassantSquare() const;
 
+        /**
+         * @brief Returns the halfmove clock (for the 50-move rule).
+         */
+        [[nodiscard]] int GetHalfmoveClock() const;
+
+        /**
+         * @brief Returns the fullmove number.
+         */
+        [[nodiscard]] int GetFullmoveNumber() const;
+
         //-------------------------------------------------
         // Parsing Logic
         //-------------------------------------------------
@@ -140,18 +152,30 @@ namespace qb
          */
         Square m_enPassantSquare{ SQ_NONE };
 
+        /**
+         * @brief The number of halfmoves since the last capture or pawn advance.
+         * This value is used to determine if a draw can be claimed under the 50-move rule.
+         */
+        int m_halfmoveClock{ 0 };
+
+        /**
+         * @brief The number of the full move.
+         * It starts at 1 and is incremented after Black's move.
+         */
+        int m_fullmoveNumber{ 1 };
+
         //-------------------------------------------------
         // Parsing Helper
         //-------------------------------------------------
 
         /**
-         * @brief Helper function to split a string by a delimiter.
+         * @brief Helper function to split a string view by a delimiter.
          *
-         * @param t_str The input string to split.
+         * @param t_str The input string view to split.
          * @param t_delimiter The delimiter character.
          *
-         * @return A vector of strings after splitting.
+         * @return A vector of string views after splitting.
          */
-        static std::vector<std::string> Split(const std::string& t_str, char t_delimiter);
+        static std::vector<std::string_view> Split(std::string_view t_str, char t_delimiter);
     };
 }

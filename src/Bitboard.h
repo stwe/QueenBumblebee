@@ -182,7 +182,7 @@ namespace qb
         std::array<U64, 64> masks{};
         for (int sq{ 0 }; sq < 64; ++sq)
         {
-            masks[sq] = FILE_MASKS[sq % 8]; // Oder file_index(sq) falls du so eine Funktion hast
+            masks[sq] = FILE_MASKS[sq % 8];
         }
 
         return masks;
@@ -211,7 +211,7 @@ namespace qb
         std::array<U64, 64> masks{};
         for (int sq { 0 }; sq < 64; ++sq)
         {
-            masks[sq] = RANK_MASKS[sq / 8]; // Oder rank_index(sq)
+            masks[sq] = RANK_MASKS[sq / 8];
         }
 
         return masks;

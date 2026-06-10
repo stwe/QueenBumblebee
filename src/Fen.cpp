@@ -1,6 +1,6 @@
 // This file is part of the QueenBumblebee project.
 //
-// Copyright (c) 2025. stwe <https://github.com/stwe/QueenBumblebee>
+// Copyright (c) 2026. stwe <https://github.com/stwe/QueenBumblebee>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -18,6 +18,7 @@
 
 #include "Fen.h"
 #include "Assert.h"
+#include <charconv>
 
 //-------------------------------------------------
 // Ctors. / Dtor.
@@ -64,12 +65,23 @@ qb::Square qb::Fen::GetEnPassantSquare() const
     return m_enPassantSquare;
 }
 
+int qb::Fen::GetHalfmoveClock() const
+{
+    return m_halfmoveClock;
+}
+
+int qb::Fen::GetFullmoveNumber() const
+{
+    return m_fullmoveNumber;
+}
+
 //-------------------------------------------------
 // Parsing Logic
 //-------------------------------------------------
 
 bool qb::Fen::Parse()
 {
+    // Use string_view for the main split to avoid heap allocations
     const auto tokens{ Split(m_fenString, ' ') };
     if (tokens.size() < 4)
     {
@@ -78,11 +90,18 @@ bool qb::Fen::Parse()
     }
 
     // 1. Piece placement
-    m_piecePlacement = Split(tokens[0], '/');
-    if (m_piecePlacement.size() != 8)
+    const auto rankTokens{ Split(tokens[0], '/') };
+    if (rankTokens.size() != 8)
     {
         QB_LOG_ERROR("[Fen::Parse()] Invalid piece placement in FEN.");
         return false;
+    }
+
+    m_piecePlacement.clear();
+    m_piecePlacement.reserve(8);
+    for (const auto& rankStr : rankTokens)
+    {
+        m_piecePlacement.emplace_back(rankStr);
     }
 
     // 2. Side to move
@@ -128,28 +147,32 @@ bool qb::Fen::Parse()
     }
 
     // 4. En passant square
-    if (const auto& ep{ tokens[3] }; ep == "-")
+    if (const auto ep{ tokens[3] }; ep == "-")
     {
         m_enPassantSquare = SQ_NONE;
     }
+    else if (ep.length() == 2 && ep[0] >= 'a' && ep[0] <= 'h' && (ep[1] == '3' || ep[1] == '6'))
+    {
+        // Calculate square index directly (assuming standard mapping: a1=0, b1=1 ... h8=63)
+        const int file = ep[0] - 'a';
+        const int rank = ep[1] - '1';
+        m_enPassantSquare = static_cast<Square>(rank * 8 + file);
+    }
     else
     {
-        auto found{ false };
-        for (auto i{ 0 }; i < 64; ++i)
-        {
-            if (SQUARE_NAMES[i] == ep)
-            {
-                m_enPassantSquare = static_cast<Square>(i);
-                found = true;
+        QB_LOG_ERROR("[Fen::Parse()] Invalid en passant square in FEN.");
+        return false;
+    }
 
-                break;
-            }
-        }
-        if (!found)
-        {
-            QB_LOG_ERROR("[Fen::Parse()] Invalid en passant square in FEN.");
-            return false;
-        }
+    // 5. & 6. Halfmove clock and Fullmove number (Optional in some sloppy FENs, but standard)
+    if (tokens.size() >= 5)
+    {
+        std::from_chars(tokens[4].data(), tokens[4].data() + tokens[4].size(), m_halfmoveClock);
+    }
+
+    if (tokens.size() >= 6)
+    {
+        std::from_chars(tokens[5].data(), tokens[5].data() + tokens[5].size(), m_fullmoveNumber);
     }
 
     return true;
@@ -159,22 +182,20 @@ bool qb::Fen::Parse()
 // Parsing Helper
 //-------------------------------------------------
 
-std::vector<std::string> qb::Fen::Split(const std::string& t_str, const char t_delimiter)
+std::vector<std::string_view> qb::Fen::Split(std::string_view t_str, const char t_delimiter)
 {
-    std::vector<std::string> result;
+    std::vector<std::string_view> result;
     size_t start{ 0 };
-    while (start < t_str.size())
-    {
-        const auto end{ t_str.find(t_delimiter, start) };
-        if (end == std::string_view::npos)
-        {
-            result.emplace_back(t_str.substr(start));
-            break;
-        }
+    size_t end{ t_str.find(t_delimiter) };
 
+    while (end != std::string_view::npos)
+    {
         result.emplace_back(t_str.substr(start, end - start));
         start = end + 1;
+        end = t_str.find(t_delimiter, start);
     }
+
+    result.emplace_back(t_str.substr(start));
 
     return result;
 }
